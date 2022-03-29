@@ -8,9 +8,11 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageReaction.ReactionEmote;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class ServerInstance {
 	static int[] userChoices;
@@ -37,36 +39,28 @@ public class ServerInstance {
 		return permittedGuild.getServerID();
 	}
 
-	public static void messageForServer(MessageReceivedEvent event) {
+	public void onMessageReceived(MessageReceivedEvent event) {
 		pathnames = f.list();
 		String userName = "happihound";
-		// Event specific information
-		User user = event.getAuthor(); // The user that sent the message
-		Message message = event.getMessage(); // The message that was received.
-		MessageChannel channel = event.getChannel(); // This is the MessageChannel that the message was sent to.
-														// This could be a TextChannel, PrivateChannel, or Group!
+		User user = event.getAuthor();
+		Message message = event.getMessage();
+		MessageChannel channel = event.getChannel();
 
-		String msg = message.getContentDisplay(); // This returns a human readable version of the Message. Similar to
-		// what you would see in the client.
+		String msg = message.getContentDisplay();
 
-		if (event.isFromType(ChannelType.TEXT)) // If this message was sent to a Guild TextChannel
-		{
+		if (event.isFromType(ChannelType.TEXT)) {
 			if (!user.isBot()) {
 
-				Guild guild = event.getGuild(); // The Guild that this message was sent in. (note, in the API, Guilds
-												// are
-												// Servers)
+				Guild guild = event.getGuild();
+
 				TextChannel textChannel = event.getTextChannel();
-				channel = event.getTextChannel(); // The TextChannel that this message was sent to.
-				// This Member that sent the message. Contains Guild specific
-				// information
-				// about the User!
+				channel = event.getTextChannel();
+
 				userName = user.getName();
 				userName = userName.toLowerCase();
 				System.out.printf("(%s)[%s]<%s>: %s\n", guild.getName(), textChannel.getName(), userName, msg);
 
-				if (event.getTextChannel() == guild.getTextChannelById(permittedChannelId)) {
-					allowedChannel = event.getTextChannel();
+				if (event.getTextChannel() == guild.getTextChannelById(permittedGuild.getChannelID())) {
 					Character commandChar = '!';
 					if (msg.length() == 0) {
 						return;
@@ -135,6 +129,75 @@ public class ServerInstance {
 
 			}
 		}
+	}
+
+	public void onMessageReactionAdd(MessageReactionAddEvent event) {
+		User user = event.getUser();
+		String userName = user.getName().toLowerCase();
+		if (!(event.getMessageIdLong() == Game.botGameMessageID)) {
+			System.out.println("id missmatch, exiting");
+			return;
+		}
+
+		if (userName.equalsIgnoreCase("alethophobia")) {
+			return;
+		}
+		ReactionEmote message = event.getReactionEmote();
+
+		String msg = message.getAsReactionCode(); // This returns a human readable version of the reaction. Similar to
+
+		System.out.println(userName);
+		for (int i = 0; Game.Roster.size() > i;) {
+			if (userName.equalsIgnoreCase(Game.Roster.get(i))) {
+				int answerChoice = reactionToValue(msg) - 1;
+				if (answerChoice < 0 || answerChoice > 6) {
+					System.out.println("not a valid reaction!");
+					return;
+				}
+				userChoices[i] = answerChoice;
+				System.out.println("set message for user " + Game.Roster.get(i) + " " + userChoices[i]);
+
+			}
+
+			i++;
+		}
+
+		for (int i = 0; userChoices.length > i;) {
+			if (userChoices[i] == -1) {
+				return;
+
+			}
+
+			i++;
+
+		}
+		Main.inputOver = true;
+
+	}
+
+	public int reactionToValue(String msg) {
+
+		int value = -1;
+
+		if (msg.equals("\u0031\ufe0f\u20e3")) {
+			value = 1;
+
+		} else if (msg.equals("\u0032\ufe0f\u20e3")) {
+			value = 2;
+		} else if (msg.equals("\u0033\ufe0f\u20e3")) {
+			value = 3;
+
+		} else if (msg.equals("\u0034\ufe0f\u20e3")) {
+			value = 4;
+
+		} else if (msg.equals("\u0035\ufe0f\u20e3")) {
+			value = 5;
+
+		} else if (msg.equals("\u0036\ufe0f\u20e3")) {
+			value = 6;
+
+		}
+		return value;
 	}
 
 	public void join(String[] commandString, String user, MessageChannel channel) {

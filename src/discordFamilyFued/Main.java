@@ -28,10 +28,9 @@ public class Main extends JPanel implements ActionListener {
 	static String[] permittedGuilds = { "849877469724803102", "917295004769210429" };
 	static String[] permittedChannels = { "954205423257403452", "958474528881778729" };
 	static String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
-	static ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 
 	public static void main(String[] args) {
-
+		ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 		for (int i = 0; permittedGuilds.length > i;) {
 			allowedGuild guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
 			ServerInstance newServer = new ServerInstance(guild);
@@ -47,7 +46,7 @@ public class Main extends JPanel implements ActionListener {
 			@Override
 			public void run() {
 
-				connect1();
+				connect1(servers);
 			}
 		}).start();
 		// continually redraws the display to keep it updated in parallel to other tasks
@@ -64,11 +63,11 @@ public class Main extends JPanel implements ActionListener {
 		}
 	}
 
-	public static void connect1() {
+	public static void connect1(ArrayList<ServerInstance> servers) {
 		writeLog("bot connecting");
 		try {
 			JDA alethophobia = JDABuilder.createDefault("OTU0MjAyNzgwNjA2ODE2Mzc2.YjPslw.gvkvX-qNL_kzSWylMnDXDhKDH9s")
-					.addEventListeners(new alethophobia()) // An instance of a class that will handle events.
+					.addEventListeners(new alethophobia(servers)) // An instance of a class that will handle events.
 					.build();
 			alethophobia.awaitReady(); // Blocking guarantees that JDA will be completely loaded.
 			System.out.println("Finished Building JDA!");

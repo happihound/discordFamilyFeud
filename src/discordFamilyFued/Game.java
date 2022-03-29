@@ -49,7 +49,7 @@ public class Game {
 
 	public static void newRound(ArrayList<String> Roster, MessageChannel channel) {
 		roundNumber++;
-		alethophobia.ensureCapacity();
+		ServerInstance.ensureCapacity();
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(discordFamilyFued.questionDatabase.getLineCount("questions.txt"));
 		String[] answers = questionDatabase.getAnswer(randomNumber);
@@ -82,7 +82,7 @@ public class Game {
 		}
 
 		channel.sendMessage("**The answers are in! **").queue();
-		int[] userAnswers = alethophobia.userChoices;
+		int[] userAnswers = ServerInstance.userChoices;
 		String[] answers2 = questionDatabase.getAnswerAndValue(randomNumber);
 		channel.sendMessage("\n" + "**1. **" + answers2[0] + "\n" + "**2. **" + answers2[1] + "\n" + "**3. **"
 				+ answers2[2] + "\n" + "**4. **" + answers2[3] + "\n" + "**5. **" + answers2[4] + "\n" + "**6. **"
@@ -108,7 +108,7 @@ public class Game {
 	public static void endGame(MessageChannel channel) {
 
 		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
-		alethophobia.acceptingInput = false;
+		ServerInstance.acceptingInput = false;
 		Main.inputOver = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
