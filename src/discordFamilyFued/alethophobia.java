@@ -91,7 +91,7 @@ public class alethophobia extends ListenerAdapter {
 							forcestop();
 						} else if (commandString.length == 2 && commandString[1].equalsIgnoreCase("force")
 								&& commandString[0].equalsIgnoreCase("start") && userIsAdmin) {
-							forceStart(channel);
+							start(channel, true);
 
 						}
 
@@ -108,7 +108,7 @@ public class alethophobia extends ListenerAdapter {
 							}
 
 							else if (commandString[0].equalsIgnoreCase("start") && commandString.length == 1) {
-								start(channel);
+								start(channel, false);
 							}
 
 							else if (runCommands == false) {
@@ -148,26 +148,15 @@ public class alethophobia extends ListenerAdapter {
 
 	}
 
-	public void start(MessageChannel channel) {
+	public void start(MessageChannel channel, boolean forceStart) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-
-				Main.startNewGame(Roster, channel);
+				Game newGame = new Game();
+				Game.startNewGame(Roster, channel, forceStart);
 			}
 		}).start();
 
-	}
-
-	public void forceStart(MessageChannel channel) {
-		Main.forceStart = true;
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-
-				Main.startNewGame(Roster, channel);
-			}
-		}).start();
 	}
 
 	public void leave(String[] commandString, String user, MessageChannel channel) {
@@ -197,7 +186,7 @@ public class alethophobia extends ListenerAdapter {
 	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		User user = event.getUser();
 		String userName = user.getName().toLowerCase();
-		if (!(event.getMessageIdLong() == Main.botGameMessageID)) {
+		if (!(event.getMessageIdLong() == Game.botGameMessageID)) {
 			System.out.println("id missmatch, exiting");
 			return;
 		}
@@ -207,7 +196,6 @@ public class alethophobia extends ListenerAdapter {
 		}
 		ReactionEmote message = event.getReactionEmote();
 
-		MessageChannel channel = event.getChannel(); // This is the MessageChannel that the reaction was sent to.
 		String msg = message.getAsReactionCode(); // This returns a human readable version of the reaction. Similar to
 
 		System.out.println(userName);

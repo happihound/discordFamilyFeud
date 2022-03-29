@@ -1,2 +1,2 @@
 happihound
-points=21
+points=14
