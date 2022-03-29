@@ -72,15 +72,14 @@ public class Game {
 
 		}
 
-		channel.sendMessage("**The answers are in! **").queue();
+		channel.sendMessage("**The answers are in!**").queue();
+		String[] answers2 = questionDatabase.getAnswerAndValue(randomNumber);
+		channel.sendMessage("\n" + "**1. **" + answers2[0] + "\n" + "**2. **" + answers2[1] + "\n" + "**3. **"
+				+ answers2[2] + "\n" + "**4. **" + answers2[3] + "\n" + "**5. **" + answers2[4] + "\n" + "**6. **"
+				+ answers2[5] + "\n").queue();
 		int[] userAnswers = alethophobia.userChoices;
 		for (int i = 0; Roster.size() > i;) {
 			addUserPoints(Roster.get(i), answerValue[userAnswers[i]]);
-			String[] answers2 = questionDatabase.getAnswerAndValue(randomNumber);
-
-			channel.sendMessage("\n" + "**1. **" + answers2[0] + "\n" + "**2. **" + answers2[1] + "\n" + "**3. **"
-					+ answers2[2] + "\n" + "**4. **" + answers2[3] + "\n" + "**5. **" + answers2[4] + "\n" + "**6. **"
-					+ answers2[5] + "\n").queue();
 
 			channel.sendMessage(Roster.get(i) + " chose" + " **" + (userAnswers[i] + 1) + ".** " + "\""
 					+ answers[userAnswers[i]] + "\"" + " They earned " + answerValue[userAnswers[i]]
