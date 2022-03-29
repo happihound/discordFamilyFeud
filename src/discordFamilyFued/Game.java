@@ -49,12 +49,11 @@ public class Game {
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(discordFamilyFued.questionDatabase.getLineCount("questions.txt"));
 		String[] answers = questionDatabase.getAnswer(randomNumber);
-		int[] answerValue = discordFamilyFued.questionDatabase.questionValue(randomNumber);
+		Integer[] answerValue = discordFamilyFued.questionDatabase.questionValue(randomNumber);
 		long seed = System.nanoTime();
 		Collections.shuffle(Arrays.asList(answers), new Random(seed));
-		Collections.shuffle(Arrays.asList(answerValue), new Random(seed));
 		channel.sendMessage("**Question Number " + randomNumber + "**").queue();
-
+		Collections.shuffle(Arrays.asList(answerValue), new Random(seed));
 		sendMessageWithReactions(channel,
 				questionDatabase.getQuestion(randomNumber) + "\n" + "**1. **" + answers[0] + "\n" + "**2. **"
 						+ answers[1] + "\n" + "**3. **" + answers[2] + "\n" + "**4. **" + answers[3] + "\n" + "**5. **"

@@ -83,9 +83,9 @@ public class questionDatabase {
 		return answers;
 	}
 
-	public static int[] questionValue(int QuestionNumber) {
+	public static Integer[] questionValue(int QuestionNumber) {
 		int pointValue;
-		int[] pointValues = new int[6];
+		Integer[] pointValues = new Integer[6];
 
 		String[] answerAndValue = firstPlaceAnswers[QuestionNumber].split(" ");
 		pointValue = Integer.parseInt(answerAndValue[answerAndValue.length - 1]);

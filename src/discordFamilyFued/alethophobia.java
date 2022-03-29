@@ -24,7 +24,7 @@ public class alethophobia extends ListenerAdapter {
 	static String[] pathnames;
 	static Random rand = new Random();
 	static File f = new File(Main.userFileLocation);
-	static boolean runCommands = false;
+	static boolean runCommands = true;
 	static long coolDownTime = 1;
 	static TextChannel allowedChannel;
 	static String permittedChannelId = "954205423257403452";
