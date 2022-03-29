@@ -335,3 +335,7 @@ Status was changed to on by happihound
 Starting new game
 made new user happihound
 made new user vergil
+program started
+bot connecting
+program started
+bot connecting
