@@ -1,0 +1,1063 @@
+Food 8
+Postal delivery 4
+Customer Service 5
+A Wonderful Life 10
+Grand Canyon 4
+All/Fence 4
+Raise Hand Often 5
+Noon 5
+Restaurant 5
+Stretch/Bend Over 6
+Dirty/Unkempt 3
+Bottle 5
+George Washington 5
+Spending Money 9
+Sunglasses 8
+Plane 3
+Wrapping Paper 7
+Pluck eyebrows 6
+Monsters 6
+People 5
+Coming Back 10
+Move Closer 7
+Meeting New People 12
+No Presents 5
+Nursery Rhymes 4
+Talk 5
+Politics 3
+Not Show Up 5
+Cap 5
+Beast 5
+Diary Of A Wimpy Kid 8
+10 14
+Fixed Income 7
+Stock Broker 5
+Wrestling 5
+Bring Food In 10
+Fairy Dust 4
+Go To Bed 10
+Fall Asleep 7
+Open House 4
+Job 8
+Cry 4
+Sell Tickets 12
+Homework 4
+Heated 9
+Traffic Cop 5
+Pizza 11
+Speech 6
+Snore 3
+Flowers 3
+Clothes 7
+Come Here Often 6
+By Phone 8
+Belt 4
+Bottle Opener 7
+Difficult Classes 4
+Beach 9
+Library 6
+Music Player 6
+Pay Bills 7
+Eating 7
+Carriage 4
+Celebrity’s Home 5
+Library 3
+Meatloaf 5
+Break Dancer 4
+Photos 7
+Expensive Drinks 5
+Umbrella 12
+Job Title 5
+Relationship Status 5
+Family 4
+Driving Golf Cart 10
+0 4
+7 5
+Hawii 5
+Shower 6
+Room Service 8
+Parent 6
+Leave It Messy 10
+Use Botox 6
+Keeping Fit 5
+COSTUMES 3
+0 6
+Fun 9
+ALCOHOL 8
+ART 6
+Bar 8
+Scarface 8
+Blue 3
+String 3
+Track 8
+Buddhist 4
+Party 5
+Have Fun 5
+Amsterdam 4
+Water 3
+Snacks 9
+Use Cell Phone 6
+Laurence Fishburne 6
+Sleeping 13
+BOXES 5
+Brakes 5
+Pie 8
+No Teeth 10
+TOWEL 4
+Air COnditioning 14
+Root Beer Float 3
+Don’t Bite/Chew 5
+Shorts 7
+Go On Dates 6
+Public Speaking 12
+PUBLIC SPEAKING 12
+Injuries 3
+Meat 8
+Car Problems 3
+MATTRESS 8
+Furniture 7
+Bacon 10
+Playing An Instrument 3
+Introduce Yourself 3
+Waiting Room 9
+Orange Bowl 4
+Noise 4
+Garbage 8
+Tenessee 6
+Decorations 4
+Juice 4
+Guitar 10
+Girl Scouts 12
+Telemarketer 5
+Charmin Tissue 6
+Throw Bouqueu 6
+Name 5
+Ginger chicken 6
+Paint Ceilings 5
+Wash Cars 8
+Pasta 5
+Hygiene 5
+Dad 7
+Fence 4
+Home From Work 3
+Car 7
+Ice Cream 6
+Asking Questions 2
+Flowers 4
+Lumberjack 5
+Feet 2
+Merlin/Wizard 7
+Hold A Bottle 4
+Sleep Alot 8
+Elephant 9
+Crash It 7
+Tight Rope Walker 4
+Life 10
+Scales 3
+Owned By Timmy 8
+Chocolate Santa 4
+Clapping 3
+Get Sick 6
+No Sugar 7
+Night Light 6
+Programming 4
+Timer 3
+Kids 5
+Crawling 8
+Sledding 14
+Jump 5
+TV 5
+6 11
+IRA 9
+Green Beans 7
+Bread 11
+FAO Schwartz 8
+Acrobat 5
+Doors 5
+Ninjas 7
+Cold Feet 12
+Heart 4
+Too Busy At Work 7
+Pie 5
+Mirror 6
+Deoderant 4
+Coffee/Donuts 9
+Construction 7
+Collie 10
+Work 7
+Laughing 6
+Beads 8
+Funeral 4
+Drive 7
+Date Too Soon 12
+Kids 15
+Hunger/Poverty 10
+Went To Drive In 6
+Scratching 7
+Museum 3
+Fight 5
+Cold Towel 4
+Germs 5
+Stayed Up Late 3
+Jennifer anniston 13
+Table Cloth 5
+Tires 4
+Move Closer 7
+Department Store 3
+Put You On Hold 8
+Fly 4
+Valentines Day 5
+Coffee Maker 3
+Principal’s Office 4
+Romance 7
+Water Wings 12
+Money 4
+Shovel 5
+Beer 2
+Hunt 5
+Stereo/Speakers 4
+Parenting 5
+Nose 6
+Flute 4
+Self Help 11
+Cover Up 3
+Horse 3
+Perfume 6
+Musical Instrument 5
+Decorate 8
+Political Terms 8
+Restroom 7
+Juice 4
+House 8
+Pizza 5
+Mummy 5
+Halloween 7
+New York 6
+Melon 11
+British Accent 6
+Board Games 10
+Giraffe 6
+music 7
+Bartender 5
+Bugs 7
+Wolf 3
+Hamster 2
+Place Of Worship 6
+Soccer 8
+Best Friend 5
+Matches 6
+Elephant 7
+Gazelle 7
+DVD Player 6
+Jewelry 3
+Chess 5
+Grape 3
+John Travolta 12
+Sweep 7
+Exercise 5
+Buy Used 8
+take Her Out 4
+Mediate 5
+Lion 5
+National Guard 5
+Potatoes 4
+Books 9
+Talking 4
+Rake 6
+Potatoes 5
+Coffee 6
+Mouth 5
+Fake Muscles 4
+Sit On His Lap 5
+Golf Cart 3
+Bite Down 5
+Rat/Mouse 3
+Crackers 5
+Party 5
+Rest Rooms 4
+Unicorn 11
+Saw 5
+Job 8
+Traffic 7
+October 4
+Nose 3
+Jacket 6
+Packages 11
+Mumps 5
+Nothing 4
+Band Instructor 7
+prime Number 3
+First Car 12
+Telephone 5
+Mechanic 5
+Purr 8
+Drinking 9
+Must Have Items 9
+Swearing 7
+Blanket 8
+Toys 9
+Fight 7
+lion 9
+Sunglasses 11
+Expensive Drinks 7
+Hat 9
+Naughty Kids 6
+Bugs 4
+Donald Duck 6
+RCA dog 11
+Pet Food 13
+Badge 5
+Work With Reindeer 7
+Road Runner 6
+School 10
+Raccoon 2
+Gondolas 10
+Run and hide 3
+Laundry room 5
+Raft 3
+Brush it 9
+Brooklyn 3
+Eggs 5
+Evening activities 11
+Bald 4
+Walt Disney 9
+Jay Leno 4
+Partner 4
+Paper Clips 3
+Hospital 5
+Fights 6
+Stay home 6
+Moses 4
+Skin care 10
+Make bed 6
+Giraffe 3
+Athlete 7
+Curse 3
+Goggles 10
+Tomato 3
+Shawl/Scarf 8
+Fan 7
+Sunglasses 5
+Stress 5
+Instant Potatoes 6
+C 3PO 11
+Cafeteria 6
+Car racing 3
+Car racing 3
+Dishes 10
+Puppy’s bark 9
+Finances 4
+Air conditioning 5
+Tantrum 6
+Clients 11
+Court Reporter 6
+Cheddar 11
+Dye hair 6
+Lion 6
+Soup 8
+Clothes 4
+Overflow 8
+Dance 7
+Sibling 8
+Their cars 9
+Lipstick 6
+Dancer 5
+The Wizard 8
+Exercise 9
+Changing diapers 11
+15 5
+14 10
+3 Days 12
+A Bowl Of Cherries 8
+Internet Access 6
+Wings 8
+Leaky Roof 5
+Model 5
+Tree/Playhouse 5
+Table 8
+Hair Growth Cream 4
+Boondocks 9
+Chiropractor 10
+Horse 5
+Houses 4
+Broom 4
+Margaritas 6
+Insult Players 3
+Ron Howard 10
+Showering 6
+Bathroom 11
+Talent 7
+Paper 7
+Bottles 3
+Pay Phone Calls 6
+Have Baby Shower 10
+Nightmare Before 6
+Model 3
+Toilet Paper 6
+Voting Booth 4
+Clorine 3
+King Kong 7
+Vest 5
+Fever 4
+Beg For Junk Food 4
+Jerry Springer 8
+Doorbell 5
+Butt Size 7
+Leopard 6
+Show Girls 9
+Chicken 2
+Friends With People 8
+Go To School 5
+Keys 6
+Bathroom Often 6
+Sister 5
+Saxophone4Guitar 3
+Bandana 4
+Robe 5
+Polka Dots 10
+His Outfit 9
+Shotput 6
+A Bath 8
+Trampoline Use 6
+Attitude/Behavior 8
+Gloomy 9
+By Phone 9
+Prisoner 6
+Chocolate 2
+Pens/Pencils 5
+College Tuition 4
+Howard Johnson 7
+Dusting 5
+Walk Around Naked 7
+Prayers 2
+Bullhorn 4
+Phone 5
+Lil red Riding Hood 6
+Hamster/Gerbil 8
+Lose Teeth 4
+Romance 8
+Shampoo 5
+Sandwiches 10
+Jewelry 3
+Lotion 4
+Detective 7
+Terrifying 10
+Angry 7
+To express love 4
+Computer 6
+Food server 7
+Drawings 5
+Shopping Trip 6
+Rest 10
+Fighting 5
+Falling Apart 7
+Doctor/Dentist 7
+Jazz 3
+Batter 9
+Construction 7
+Sword 6
+Baby cries 13
+Look Away 6
+Nurse 8
+Bus schedule 8
+Linguine 9
+Rubber Ducky 8
+Kiss 5
+Gamble 4
+Stealing Cattle 3
+Wicked Witch 10
+Loud 7
+Sally 7
+call A Doctor 10
+Musician 10
+Corn on the cob 5
+Magazines 6
+Listening To Music 9
+Roly Poly 9
+Pop Up Pages 4
+Stamina 2
+Grunt 4
+Telephone 6
+Toothpick 5
+Comic Books 6
+Internet 6
+Hat 11
+Beach Smell 3
+Pajama Party 5
+Alfredo 13
+Lone Ranger 6
+Their Education 3
+Siren 6
+Food 7
+Windows 3
+Beast 5
+Ivana 7
+No Smoking 3
+Bend Over 7
+Anniversary 8
+Gin Rummy 7
+Sleeve 2
+Broadway 5
+Chewing Tobacco 4
+Grey 8
+Weeds 6
+Spelling 9
+In Laws 7
+9 5
+Have A Wedding 12
+Mountain 4
+Hat 6
+Business Suit 11
+Swearing 5
+Comb 5
+Smog 9
+Glowing 4
+Books 2
+Ingrown Toenail 7
+Soap 4
+Hurricane 4
+Mountains 5
+Female Friend 5
+Flashlight 4
+Actor/Model 11
+Sausage 4
+When Rain Would End 6
+Running Water 9
+Cricket 3
+Sugar 3
+Microwave 11
+Medicine 6
+Tissue 8
+Transportation/Gas 8
+Strong 6
+Corvette 6
+Scarf 5
+Tea Party 6
+Tobasco 6
+Kick It In 4
+Rolling Stone 4
+Router 9
+Not Enough Elves 4
+Hung Up On Ex 5
+Food/Drink 9
+Last Name 7
+Music Store 4
+Couch 5
+Farmer 4
+Cake/Pie 8
+Sit On Them 2
+Meatball 10
+Motorcycle 3
+Diving 2
+Christmas 9
+Sea Shells 11
+Entertainment 7
+Turkey/Bones 10
+CEO 7
+Friends 6
+Going For A Walk 7
+Taylor 5
+Cry 7
+Magazines 6
+Shark 8
+Meat 5
+Brad Pitt 7
+Music 8
+To Get A Hair Cut 4
+Christopher Wakin 10
+Don’t Like cake 5
+Scratch 2
+Atlas 4
+Make Up 5
+Purse/Wallet 11
+A Hearse 6
+Producer 5
+Food 12
+Cigarettes 4
+Tires 3
+Judge 10
+Highway 7
+Storm 5
+Fire Hydrant 9
+Heel 3
+Have Kids? 7
+Clothes 7
+Wise Men 3
+Say Hello 7
+Spock 7
+Take A Bath 9
+Losing A Game 11
+Rubber Gloves 5
+Bandana 3
+Back 4
+Cook 10
+Cheat/Divorce 10
+Shop 4
+Cream 9
+Dress Up 3
+Music 7
+Satelite Dish 4
+Technology 8
+Food Is Thawed 9
+Mascara 11
+Drapes 3
+Food 11
+Truck 10
+Dancing Hips 12
+Hands 3
+Gymnastics 9
+Make Coffee 3
+Use Pockets 6
+Mowing Lawn 5
+A Crack 7
+Balance Beam 5
+Fetch 6
+Coffee Shop 6
+Baby 4
+Dogs 5
+Matchbook 3
+Health 3
+GI Joe 9
+Lizard 6
+Do Tricks 6
+Tooth 10
+Read 6
+Marital Status 5
+Turtle 8
+Get Dates 7
+Stay Out Late 6
+Huge House 11
+All Beauty No Brains 8
+Hire Nanny 4
+Roll Eyes 4
+Plastic/Wrapper 6
+Hike 9
+Bear 5
+Michael Jordan 6
+Talking 7
+Marital Status 4
+Expensive Artwork 5
+Insurance 6
+Car Dealership 6
+Candles 3
+Thermals 7
+Travel 5
+Clogs 4
+Status 4
+Grandma Got Run Over 3
+Mounds 7
+Sopping Trip 8
+Highway 9
+Pader 11
+Communication 9
+Fish 4
+Greyhound 5
+Hot Pocket 7
+Store 9
+Driver’s License 5
+Gift card 8
+News/Politics 11
+Dog 5
+IRS 9
+A Pool 8
+Psychic 8
+Vest 5
+Chrysler 4
+Horse’s Head 5
+Viewer Mail 5
+Religious Leader 6
+Therapist 4
+Milkshake 8
+Soda 7
+Hide Things 3
+Accent 6
+Tiger 9
+Kool Aid 5
+Bugs 9
+Girls Girls Girls 7
+Landing 3
+Talk 3
+Shower 7
+Back 7
+Toilet Paper 10
+Caramel Delight 7
+Bathroom 9
+Friend’s House 6
+Mail Pile Up 9
+Carnation 7
+Car 5
+Toast 9
+Cough 5
+Talk 5
+Score 6
+Tailgating 11
+Leave Phone Numbers 10
+Keys 9
+Apple Sauce 3
+Kite 4
+Swans A Swimming 4
+Use A Computer 7
+Alarm Clock 9
+Instruments 11
+Toy’s 7
+Smooths/Softens It 8
+Soap/Shampoo 6
+Harp 7
+Line Dancing 9
+Country 2
+Riding In Airplane 14
+Mints 7
+Gray Hair 5
+Basketball Court 3
+Anaheim 2
+Washer/Dryer 6
+Flowers 9
+Self Control 7
+Cross 4
+Purse 7
+Zebra 10
+Father’s Day 4
+Car Racing 3
+Dr Pepper 11
+School 7
+Exercise 6
+A Dog 3
+Love/Marriage 5
+Fourth Of July 5
+Get A Job 3
+No Trespassing 7
+Children 8
+Teachers 11
+Marhmellow 4
+Apple Sauce 9
+Color 6
+Display Case 3
+Radio Broadcaster 11
+Cat’s Meow 14
+To A Hotel 9
+T Shirts 7
+Bedtime Story 8
+Lipstick 11
+Best Friend 5
+Child 13
+Fidelity 5
+Call School 6
+Party Favors 6
+Bridge 4
+Jewels 7
+Church 8
+Work 4
+Blueberry 5
+Soup 8
+Taffy 4
+Onions 7
+Gas guage 6
+Menu 3
+Pizza 9
+DVD 4
+Spam 8
+Pillows 5
+Tanning 8
+Call Police 4
+Hot Tub 9
+Watch TV 10
+Map 5
+Movers 2
+Rain/Snow 11
+Smoking 3
+Popular 6
+Liberal Politics 9
+Pen Pal 5
+Bathroom 4
+Uniform 7
+Let It Bleed 7
+Corn Flakes 2
+Rabbit 9
+Taxi 8
+Tires 4
+Onions 3
+Candles/Darkness 6
+Leave Underware 4
+Darth Vader 9
+Toys 7
+Drew Barrymore 3
+Take Pictures 7
+Driving A Car 7
+In Laws’ House 2
+Tree 8
+Medicine 5
+Bread 5
+Their Parents 5
+Francs 13
+Accent/Twang 4
+Rope 3
+March 9
+The Hospital 6
+Royal 6
+Riding Mower 9
+Pilot 5
+Quieter 7
+Clothes/People 12
+Tiger 5
+Stocks 8
+Bubbles 5
+Play Games 7
+Exercise 5
+Hangers 5
+Teeth Flossed 4
+Sling Shot 12
+Swear 9
+Scooter 9
+Skydive 10
+Skiing 9
+Hula Dance 6
+Fox 7
+Helicopter 8
+Goldy Locks 4
+swearing 7
+Stand 3
+Sitting Up 3
+Soap 5
+Cap 5
+Smokes 4
+Mittens 3
+Balance Ball ON Nose 9
+Lemon 10
+Work/Downtown 14
+Electric Eel 2
+Ladder 3
+Pro Athlete 9
+Camp 5
+No Deep Water 8
+Kitchen 7
+Tuxedo/Gown 5
+Medication 3
+Work 4
+Greasy Foods 6
+Tall Tale 3
+Movie Theatre 7
+French Hens 5
+Spend 5
+Scream 7
+Water Wings 9
+Tennis Shoes 4
+Shower 9
+Meditate/Pray 4
+Smoke Cigarettes 7
+Read A Book 10
+Drink Juice 3
+Watch A Clock 2
+Get Drunk 7
+Cry 4
+Jane Seymore 6
+Nurse 11
+Flowers 4
+Play Video Games 5
+No Privacy 7
+Fire 11
+Brush 6
+Bagels 9
+Chest Protection 7
+Jewelry 3
+Dog Barking 9
+Seaweed 11
+Space Needle 5
+Scratching An Itch 5
+Ex Spouse 6
+Sweats 1
+Ride A Bike 8
+Kiss Well 6
+Books 5
+Someone Else Sick 8
+Stove 5
+Hot Dogs 12
+Nuts 11
+Invitations 5
+Cold 5
+Donald Duck 6
+Table 12
+Bank Vault 2
+Haul Stuff 5
+Cinnamon 4
+Dye Hair 12
+Use Cowboy Slang 8
+Taking Over World 3
+Dishes 7
+Religion 7
+Change Of Clothes 4
+Dog 7
+WhoAre You 2
+Cocktail 5
+Pepperoni 11
+Shampoo 5
+Robin 2
+House 6
+Play Piano 5
+Subway 3
+5 5
+5 5
+5 11
+15 7
+1PM 9
+Electrician 3
+Winter/Keep Warm 9
+Bob Hope 9
+Age 4
+Tai Bo 2
+Battery 11
+Ball 4
+Blanket 5
+Landing Gear 5
+Personality 3
+Lochness Monster 9
+Plants 4
+Baptism 3
+Podiums 5
+Blush 10
+Chocolate Chip 11
+Tailgate 3
+Vending Machine 10
+Attack 7
+Agriculture 7
+Video Game System 3
+Blanket 5
+Hide 7
+Ice 8
+Eye Doctor 4
+Steak 8
+No Gas 6
+Tell Friends 8
+Flute 5
+Food 2
+Woods 4
+Butcher Knife 4
+Kitchen Drawer 4
+Sand Box 7
+Dog 5
+Lizzard 9
+Spider 10
+Bus 4
+Bedroom 5
+Blanket 5
+Tires 6
+Date 8
+Mu Shu Pork 9
+Pony 4
+Crocodile 7
+Grow Hair 8
+Toothbrush/Soap 9
+Recess/Playtime 8
+Spam 3
+Pen/Pencil 1
+Brain 5
+Ferris Wheel 3
+Take A Cab 11
+Beethoven 9
+Red 8
+Cajun Food 8
+Napolean Dynamite 11
+dating Site 9
+Jacket 4
+Storms 6
+Ping Pong 4
+Swimming 7
+Ice Cream 12
+Eating 10
+Apple 6
+Missing Buttons 3
+Halle Barry 7
+Trains 3
+Toast 5
+Spike 5
+Truck Stop 6
+Place Of Worship 5
+Wreath/Mistletoe 5
+Toy 6
+Snacks 5
+Wallet/Purse 7
+Lord Of The Rings 7
+Apple 8
+Ambulance Driver 7
+Umbrella 5
+Stretch 9
+Original 7
+Sauerkraut 8
+Ham 5
+Friend 3
+Eggs 6
+Chicken Wings 5
+Ice Cream/Float 10
+A Date 7
+4 Feet 12
+Fashion 4
+Take A Sleep Aid 12
+No Alcohol 8
+Charity 9
+Photo 15
+Toaster 8
+Bad Haircut 5
+Wet Diaper 10
+Talking 4
+TV 7
+Desk 7
+Club 3
+Holy Communion 5
+Strut 3
+Seas 9
+Pitching 10
+Asparagus 7
+Gumbo 7
+Equipment 10
+Fleece 7
+Gym 3
+Paper Dolls 8
+Phone 7
+Parade 8
+Quiche 8
+Sick 5
+The Joker 9
+Power Steering 7
+Go To The Beach 8
+Clench Hands 5
+Movies 6
+Check Out 8
+Whiskey 4
+Doghouse 7
+Dancer 14
+Long Johns 6
+Ice cream 7
+Mate 5
+Earrings 6
+Flowers 7
+Laugh In 10
+Letter 8
+One Way 9
+Getting Lost 8
+Bibs 6
+Candy 3
+Strip Club 4
+Swim 11
+Candy 2
+Plastic Surgery 3
+Memorial Day 4
+Scream 7
+Money 9
+Relaxing 6
+Deadbeat 9
+Mariah Carey 9
+Videos 11
+Geometry 8
+Skier 7
+IRS Auditor 7
+Tires 6
+Work Job 9
+Drapes 9
+Trick Gum 5
+Expensive 7
+Tantrum 12
+Fishing 8
+Shuffleboard 5
+Swim 8
+Physics 8
+Soda 3
+No Pen 8
