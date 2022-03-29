@@ -19,6 +19,7 @@ public class Game {
 	static int roundNumber;
 	static questionDatabase questionDatabase = new questionDatabase();
 	static long botGameMessageID = -1;
+	static ArrayList<String> Roster = new ArrayList<String>();
 
 	public Game() {
 		roundNumber = 0;
@@ -39,8 +40,11 @@ public class Game {
 
 		}
 
-		newRound(Roster, channel);
-
+		if (roundNumber != 2) {
+			newRound(Roster, channel);
+		} else {
+			endGame(channel);
+		}
 	}
 
 	public static void newRound(ArrayList<String> Roster, MessageChannel channel) {
@@ -54,6 +58,12 @@ public class Game {
 		Collections.shuffle(Arrays.asList(answers), new Random(seed));
 		channel.sendMessage("**Question Number " + randomNumber + "**").queue();
 		Collections.shuffle(Arrays.asList(answerValue), new Random(seed));
+		Integer[] placementOfAnswer = new Integer[6];
+		for (int i = 0; placementOfAnswer.length > i;) {
+			placementOfAnswer[i] = i;
+			i++;
+		}
+		Collections.shuffle(Arrays.asList(placementOfAnswer), new Random(seed));
 		sendMessageWithReactions(channel,
 				questionDatabase.getQuestion(randomNumber) + "\n" + "**1. **" + answers[0] + "\n" + "**2. **"
 						+ answers[1] + "\n" + "**3. **" + answers[2] + "\n" + "**4. **" + answers[3] + "\n" + "**5. **"
@@ -79,15 +89,29 @@ public class Game {
 				+ answers2[5] + "\n").queue();
 		for (int i = 0; Roster.size() > i;) {
 			addUserPoints(Roster.get(i), answerValue[userAnswers[i]]);
-			channel.sendMessage(Roster.get(i) + " chose" + " **" + (userAnswers[i] + 1) + ".** " + "\""
-					+ answers[userAnswers[i]] + "\"" + " They earned " + answerValue[userAnswers[i]]
+			channel.sendMessage(Roster.get(i) + " chose" + " **" + (placementOfAnswer[userAnswers[i]] + 1) + ".** "
+					+ "\"" + answers[userAnswers[i]] + "\"" + " They earned " + answerValue[userAnswers[i]]
 					+ " points. Total: " + getUserPoints(Roster.get(i)) + "!").queue();
 			i++;
 		}
+
+		Main.inputOver = false;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void endGame(MessageChannel channel) {
+
+		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
+		alethophobia.acceptingInput = false;
+		Main.inputOver = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
-		// CHANGE THIS
-
 	}
 
 	public static void sendMessageWithReactions(MessageChannel channel, String embed, String... reactions) {
@@ -189,7 +213,4 @@ public class Game {
 		return false;
 	}
 
-	public static void endGame() {
-
-	}
 }

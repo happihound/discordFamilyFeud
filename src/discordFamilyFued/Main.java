@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.JPanel;
@@ -15,7 +16,6 @@ public class Main extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -7052336505253806151L;
 	static String botName = "alethophobia";
 	// channel to connect to allows us to dynamically assign channel
-	static String[] channelString = { "954205423257403452" };
 	// location of the user database which can be relocated anywhere
 	static String userFileLocation = ".\\Userlist\\";
 	static String questionFileLocation = ".\\questions\\";
@@ -25,8 +25,22 @@ public class Main extends JPanel implements ActionListener {
 	static String[] admins = { "happihound" };
 	// static Random rand = new Random();
 	static boolean inputOver = false;
+	static String[] permittedGuilds = { "849877469724803102", "917295004769210429" };
+	static String[] permittedChannels = { "954205423257403452", "958474528881778729" };
+	static String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
+	static ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 
 	public static void main(String[] args) {
+
+		for (int i = 0; permittedGuilds.length > i;) {
+			allowedGuild guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
+			ServerInstance newServer = new ServerInstance(guild);
+			writeLog("made guild " + guild.getName() + " guildID:" + guild.getServerID() + " channelID:"
+					+ guild.getChannelID());
+			servers.add(newServer);
+			i++;
+		}
+
 		writeLog("program started");
 		// starts the drawing and connects the twitchbot
 		new Thread(new Runnable() {

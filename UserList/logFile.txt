@@ -367,3 +367,54 @@ bot connecting
 Starting new game
 made new user happihound
 made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+Starting new game
+made new user happihound
+made new user notwatty
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+program started
+bot connecting
+Starting new game
+made new user happihound
+made new user notwatty
+made guild 954205423257403452 guildID:849877469724803102 channelID:954205423257403452
+made guild 958474528881778729 guildID:917295004769210429 channelID:958474528881778729
+program started
+bot connecting
