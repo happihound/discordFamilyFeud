@@ -15,14 +15,15 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class ServerInstance {
-	static int[] userChoices;
-	static String[] pathnames;
-	static Random rand = new Random();
-	static File f = new File(Main.userFileLocation);
-	static boolean runCommands = true;
-	static long coolDownTime = 1;
-	static boolean acceptingInput = false;
-	static allowedGuild permittedGuild;
+	int[] userChoices;
+	String[] pathnames;
+	Random rand = new Random();
+	File f = new File(Main.userFileLocation);
+	boolean runCommands = true;
+	long coolDownTime = 1;
+	boolean acceptingInput = false;
+	allowedGuild permittedGuild;
+	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
 		permittedGuild = guild;
@@ -134,7 +135,7 @@ public class ServerInstance {
 	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		User user = event.getUser();
 		String userName = user.getName().toLowerCase();
-		if (!(event.getMessageIdLong() == Game.botGameMessageID)) {
+		if (!(event.getMessageIdLong() == getGame().botGameMessageID)) {
 			System.out.println("id missmatch, exiting");
 			return;
 		}
@@ -147,15 +148,15 @@ public class ServerInstance {
 		String msg = message.getAsReactionCode(); // This returns a human readable version of the reaction. Similar to
 
 		System.out.println(userName);
-		for (int i = 0; Game.Roster.size() > i;) {
-			if (userName.equalsIgnoreCase(Game.Roster.get(i))) {
+		for (int i = 0; getGame().Roster.size() > i;) {
+			if (userName.equalsIgnoreCase(getGame().Roster.get(i))) {
 				int answerChoice = reactionToValue(msg) - 1;
 				if (answerChoice < 0 || answerChoice > 6) {
 					System.out.println("not a valid reaction!");
 					return;
 				}
 				userChoices[i] = answerChoice;
-				System.out.println("set message for user " + Game.Roster.get(i) + " " + userChoices[i]);
+				System.out.println("set message for user " + getGame().Roster.get(i) + " " + userChoices[i]);
 
 			}
 
@@ -173,6 +174,10 @@ public class ServerInstance {
 		}
 		Main.inputOver = true;
 
+	}
+
+	public int[] getUserChoices() {
+		return userChoices;
 	}
 
 	public int reactionToValue(String msg) {
@@ -201,8 +206,8 @@ public class ServerInstance {
 	}
 
 	public void join(String[] commandString, String user, MessageChannel channel) {
-		if (!Game.Roster.contains(user)) {
-			Game.Roster.add(user);
+		if (!getGame().Roster.contains(user)) {
+			getGame().Roster.add(user);
 			channel.sendMessage(user + " joined the game!").queue();
 			return;
 		} else {
@@ -211,13 +216,22 @@ public class ServerInstance {
 
 	}
 
-	public void start(MessageChannel channel, boolean forceStart) {
+	public Game getGame() {
+		return newGame;
+	}
 
+	public void start(MessageChannel channel, boolean forceStart) {
+		newGame = new Game();
+		userChoices = new int[getGame().Roster.size()];
+		for (int i = 0; userChoices.length > i;) {
+			userChoices[i] = -1;
+			i++;
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				if (acceptingInput) {
-					Game.startNewGame(Game.Roster, channel, forceStart);
+					getGame().startNewGame(getGame().Roster, channel, forceStart, this);
 					return;
 				}
 				channel.sendMessage("Starting new game..." + "\n" + "Do !join to join the game!").queue();
@@ -228,8 +242,8 @@ public class ServerInstance {
 	}
 
 	public void leave(String[] commandString, String user, MessageChannel channel) {
-		if (Game.Roster.contains(user)) {
-			Game.Roster.remove(new String(user));
+		if (getGame().Roster.contains(user)) {
+			getGame().Roster.remove(new String(user));
 			channel.sendMessage(user + " left the game!").queue();
 			return;
 		} else {
@@ -246,7 +260,7 @@ public class ServerInstance {
 
 	public void off(String user, MessageChannel channel) {
 		runCommands = false;
-		Game.endGame(channel);
+		getGame().endGame(channel);
 		channel.sendMessage("Operator " + user + " changed game status to offline").queue();
 		Main.writeLog("Status was changed to off by " + user);
 	}
@@ -255,15 +269,8 @@ public class ServerInstance {
 		System.exit(0);
 	}
 
-	public static void ensureCapacity() {
-		userChoices = new int[Game.Roster.size()];
-		for (int i = 0; userChoices.length > i;) {
-			userChoices[i] = -1;
-			i++;
-		}
+	public void ensureCapacity() {
+
 	}
 
-	public static void toggleRunning() {
-		runCommands = !runCommands;
-	}
 }

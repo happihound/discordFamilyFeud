@@ -25,7 +25,8 @@ public class Game {
 		roundNumber = 0;
 	}
 
-	public static void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart) {
+	public static void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart,
+			int[] userAnswers1) {
 		Main.writeLog("Starting new game");
 		roundNumber = 0;
 		channel.sendMessage("*Starting New Game!*").queue();
@@ -41,15 +42,14 @@ public class Game {
 		}
 
 		if (roundNumber != 2) {
-			newRound(Roster, channel);
+			newRound(Roster, channel, userAnswers1);
 		} else {
-			endGame(channel);
+			endGame(channel, Server);
 		}
 	}
 
-	public static void newRound(ArrayList<String> Roster, MessageChannel channel) {
+	public static void newRound(ArrayList<String> Roster, MessageChannel channel, int[] userAnswers1) {
 		roundNumber++;
-		ServerInstance.ensureCapacity();
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(discordFamilyFued.questionDatabase.getLineCount("questions.txt"));
 		String[] answers = questionDatabase.getAnswer(randomNumber);
@@ -82,7 +82,7 @@ public class Game {
 		}
 
 		channel.sendMessage("**The answers are in! **").queue();
-		int[] userAnswers = ServerInstance.userChoices;
+		int[] userAnswers = userAnswers1;
 		String[] answers2 = questionDatabase.getAnswerAndValue(randomNumber);
 		channel.sendMessage("\n" + "**1. **" + answers2[0] + "\n" + "**2. **" + answers2[1] + "\n" + "**3. **"
 				+ answers2[2] + "\n" + "**4. **" + answers2[3] + "\n" + "**5. **" + answers2[4] + "\n" + "**6. **"
@@ -105,10 +105,10 @@ public class Game {
 
 	}
 
-	public static void endGame(MessageChannel channel) {
+	public void endGame(MessageChannel channel, ServerInstance Server) {
 
 		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
-		ServerInstance.acceptingInput = false;
+		this.acceptingInput = false;
 		Main.inputOver = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();

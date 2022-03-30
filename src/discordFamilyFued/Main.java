@@ -30,10 +30,12 @@ public class Main extends JPanel implements ActionListener {
 	static String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
 
 	public static void main(String[] args) {
+		allowedGuild guild = null;
+		ServerInstance newServer = null;
 		ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 		for (int i = 0; permittedGuilds.length > i;) {
-			allowedGuild guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
-			ServerInstance newServer = new ServerInstance(guild);
+			guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
+			newServer = new ServerInstance(guild);
 			writeLog("made guild " + guild.getName() + " guildID:" + guild.getServerID() + " channelID:"
 					+ guild.getChannelID());
 			servers.add(newServer);
