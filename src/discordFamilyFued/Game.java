@@ -80,7 +80,7 @@ public class Game extends ServerInstance {
 
 		while (!inputOver) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
