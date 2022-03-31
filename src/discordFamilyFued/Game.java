@@ -21,8 +21,10 @@ public class Game extends ServerInstance {
 	int roundNumber;
 	questionDatabase questionDatabase;
 	long botGameMessageID;
+	ArrayList<String> Roster;
 
 	public Game(allowedGuild guild1) {
+
 		super(guild1);
 		guild = guild1;
 		running = false;
@@ -36,11 +38,7 @@ public class Game extends ServerInstance {
 		running = true;
 		Main.writeLog("Starting new game");
 		roundNumber = 0;
-		channel.sendMessage("*Starting New Game!*").queue();
-		if (Roster.size() < 2 && !forceStart) {
-			channel.sendMessage("***Not enough players!***").queue();
-			return;
-		}
+		channel.sendMessage("*The game is about to begin!*").queue();
 
 		for (int i = 0; Roster.size() > i;) {
 			makeUserFile(Roster.get(i));

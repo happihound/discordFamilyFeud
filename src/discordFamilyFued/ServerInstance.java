@@ -49,7 +49,10 @@ public class ServerInstance {
 		return permittedGuild.getServerID();
 	}
 
-	public void makeNewGame() {
+	public void makeNewGame(MessageChannel channel) {
+		channel.sendMessage("Making a new game...").queue();
+		channel.sendMessage("Do !join to join the match!").queue();
+
 		if (newGame == null) {
 			newGame = new Game(permittedGuild);
 			return;
@@ -114,20 +117,22 @@ public class ServerInstance {
 						else if (commandString[0].equalsIgnoreCase("forcestop") && userIsAdmin) {
 							forcestop();
 
-						} else if (commandString.length == 2 && commandString[1].equalsIgnoreCase("force")
-								&& commandString[0].equalsIgnoreCase("start") && userIsAdmin) {
-							start(channel, true);
-
-						} else if (commandString[0].equalsIgnoreCase("Newgame")) {
+						} else if (commandString[0].equalsIgnoreCase("Newgame")
+								|| (commandString[0].equalsIgnoreCase("new"))) {
 							if (!acceptingInput) {
-								makeNewGame();
-								start(channel, false);
+								makeNewGame(channel);
 							}
 						}
 
 						if (runCommands && acceptingInput) {
 
-							if (commandString[0].equalsIgnoreCase("join") && commandString.length == 1) {
+							if (commandString.length == 2 && commandString[1].equalsIgnoreCase("force")
+									&& commandString[0].equalsIgnoreCase("start") && userIsAdmin) {
+								start(channel, true);
+
+							}
+
+							else if (commandString[0].equalsIgnoreCase("join") && commandString.length == 1) {
 
 								join(commandString, userName, channel);
 							}
