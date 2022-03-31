@@ -14,19 +14,26 @@ import java.util.Random;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Game {
-	static String[] pathnames;
-	static int roundNumber;
-	static questionDatabase questionDatabase = new questionDatabase();
-	static long botGameMessageID = -1;
-	static ArrayList<String> Roster = new ArrayList<String>();
+public class Game extends ServerInstance {
+	boolean running;
+	allowedGuild guild;
+	String[] pathnames;
+	int roundNumber;
+	questionDatabase questionDatabase;
+	long botGameMessageID;
 
-	public Game() {
-		roundNumber = 0;
+	public Game(allowedGuild guild1) {
+		super(guild1);
+		guild = guild1;
+		running = false;
+		questionDatabase = new questionDatabase();
+		botGameMessageID = -1;
+
+		// TODO Auto-generated constructor stub
 	}
 
-	public static void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart,
-			int[] userAnswers1) {
+	public void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart, int[] userAnswers1) {
+		running = true;
 		Main.writeLog("Starting new game");
 		roundNumber = 0;
 		channel.sendMessage("*Starting New Game!*").queue();
@@ -44,11 +51,11 @@ public class Game {
 		if (roundNumber != 2) {
 			newRound(Roster, channel, userAnswers1);
 		} else {
-			endGame(channel, Server);
+			endGame(channel);
 		}
 	}
 
-	public static void newRound(ArrayList<String> Roster, MessageChannel channel, int[] userAnswers1) {
+	public void newRound(ArrayList<String> Roster, MessageChannel channel, int[] userAnswers1) {
 		roundNumber++;
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(discordFamilyFued.questionDatabase.getLineCount("questions.txt"));
@@ -71,7 +78,7 @@ public class Game {
 				"\u0031\ufe0f\u20e3", "\u0032\ufe0f\u20e3", "\u0033\ufe0f\u20e3", "\u0034\ufe0f\u20e3",
 				"\u0035\ufe0f\u20e3", "\u0036\ufe0f\u20e3");
 
-		while (!Main.inputOver) {
+		while (!inputOver) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -95,7 +102,7 @@ public class Game {
 			i++;
 		}
 
-		Main.inputOver = false;
+		inputOver = false;
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -105,16 +112,22 @@ public class Game {
 
 	}
 
-	public void endGame(MessageChannel channel, ServerInstance Server) {
-
+	public void endGame(MessageChannel channel) {
 		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
-		this.acceptingInput = false;
-		Main.inputOver = false;
+		acceptingInput = false;
+		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
 	}
 
-	public static void sendMessageWithReactions(MessageChannel channel, String embed, String... reactions) {
+	public void endGame() {
+		acceptingInput = false;
+		running = false;
+		Thread thread = Thread.currentThread();
+		thread.stop();
+	}
+
+	public void sendMessageWithReactions(MessageChannel channel, String embed, String... reactions) {
 		channel.sendMessage(embed).queue(msg -> {
 			for (String reaction : reactions) {
 				msg.addReaction(reaction).queue();
@@ -124,9 +137,9 @@ public class Game {
 
 	}
 
-	public static void makeUserFile(String user) {
+	public void makeUserFile(String user) {
 		user = user.replaceAll(".txt", "");
-		Main.writeLog("made new user " + user);
+		Main.writeLog("made new user " + user + " in server " + guild.getName());
 		try {
 			FileOutputStream fos = new FileOutputStream(Main.userFileLocation + user + ".txt", false);
 			String str = user + "\n" + "points=0";
@@ -138,7 +151,7 @@ public class Game {
 		}
 	}
 
-	public static int addUserPoints(String user, int points) {
+	public int addUserPoints(String user, int points) {
 		user = user.replaceAll(".txt", "");
 		int basePoints = getUserPoints(user);
 		if (!userExists(user)) {
@@ -175,7 +188,7 @@ public class Game {
 		}
 	}
 
-	public static int getUserPoints(String user) {
+	public int getUserPoints(String user) {
 		user = user.replaceAll("@", "");
 		user = user.replaceAll(".txt", "");
 		if (!userExists(user)) {
@@ -203,7 +216,7 @@ public class Game {
 
 	}
 
-	public static boolean userExists(String user) {
+	public boolean userExists(String user) {
 		File f = new File(Main.userFileLocation);
 		pathnames = f.list();
 		user = user.replaceAll(".txt", "");
@@ -211,6 +224,10 @@ public class Game {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean getRunning() {
+		return running;
 	}
 
 }

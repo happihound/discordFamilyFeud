@@ -1,6 +1,7 @@
 package discordFamilyFued;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -17,15 +18,23 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 public class ServerInstance {
 	int[] userChoices;
 	String[] pathnames;
-	Random rand = new Random();
-	File f = new File(Main.userFileLocation);
-	boolean runCommands = true;
+	Random rand;
+	File f;
+	boolean runCommands;
 	long coolDownTime = 1;
-	boolean acceptingInput = false;
+	boolean acceptingInput;
+	boolean inputOver;
+	ArrayList<String> Roster;
 	allowedGuild permittedGuild;
 	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
+		Roster = new ArrayList<String>();
+		inputOver = false;
+		acceptingInput = false;
+		runCommands = true;
+		f = new File(Main.userFileLocation);
+		rand = new Random();
 		permittedGuild = guild;
 
 	}
@@ -40,13 +49,32 @@ public class ServerInstance {
 		return permittedGuild.getServerID();
 	}
 
+	public void makeNewGame() {
+		if (newGame == null) {
+			newGame = new Game(permittedGuild);
+			return;
+		} else if (!newGame.getRunning()) {
+			newGame = new Game(permittedGuild);
+			return;
+		} else {
+			destroyGame();
+			newGame = new Game(permittedGuild);
+
+		}
+	}
+
+	public void destroyGame() {
+		if (newGame.getRunning()) {
+			newGame.endGame();
+		}
+	}
+
 	public void onMessageReceived(MessageReceivedEvent event) {
 		pathnames = f.list();
 		String userName = "happihound";
 		User user = event.getAuthor();
 		Message message = event.getMessage();
 		MessageChannel channel = event.getChannel();
-
 		String msg = message.getContentDisplay();
 
 		if (event.isFromType(ChannelType.TEXT)) {
@@ -92,6 +120,7 @@ public class ServerInstance {
 
 						} else if (commandString[0].equalsIgnoreCase("Newgame")) {
 							if (!acceptingInput) {
+								makeNewGame();
 								start(channel, false);
 							}
 						}
@@ -172,7 +201,7 @@ public class ServerInstance {
 			i++;
 
 		}
-		Main.inputOver = true;
+		inputOver = true;
 
 	}
 
@@ -217,11 +246,22 @@ public class ServerInstance {
 	}
 
 	public Game getGame() {
+
 		return newGame;
 	}
 
+	public boolean gameStatus() {
+		if (newGame == null) {
+			return false;
+		}
+
+		if (newGame.getRunning()) {
+			return true;
+		}
+		return false;
+	}
+
 	public void start(MessageChannel channel, boolean forceStart) {
-		newGame = new Game();
 		userChoices = new int[getGame().Roster.size()];
 		for (int i = 0; userChoices.length > i;) {
 			userChoices[i] = -1;
@@ -231,7 +271,7 @@ public class ServerInstance {
 			@Override
 			public void run() {
 				if (acceptingInput) {
-					getGame().startNewGame(getGame().Roster, channel, forceStart, this);
+					getGame().startNewGame(getGame().Roster, channel, forceStart, userChoices);
 					return;
 				}
 				channel.sendMessage("Starting new game..." + "\n" + "Do !join to join the game!").queue();
@@ -260,7 +300,9 @@ public class ServerInstance {
 
 	public void off(String user, MessageChannel channel) {
 		runCommands = false;
-		getGame().endGame(channel);
+		if (gameStatus()) {
+			getGame().endGame(channel);
+		}
 		channel.sendMessage("Operator " + user + " changed game status to offline").queue();
 		Main.writeLog("Status was changed to off by " + user);
 	}
@@ -271,6 +313,11 @@ public class ServerInstance {
 
 	public void ensureCapacity() {
 
+	}
+
+	public void inputStatus(boolean b) {
+		// TODO Auto-generated method stub
+		inputOver = b;
 	}
 
 }

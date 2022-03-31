@@ -24,16 +24,15 @@ public class Main extends JPanel implements ActionListener {
 	// administrator list to determine advanced commands
 	static String[] admins = { "happihound" };
 	// static Random rand = new Random();
-	static boolean inputOver = false;
 	static String[] permittedGuilds = { "849877469724803102", "917295004769210429" };
 	static String[] permittedChannels = { "954205423257403452", "958474528881778729" };
 	static String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
 
 	public static void main(String[] args) {
-		allowedGuild guild = null;
-		ServerInstance newServer = null;
 		ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 		for (int i = 0; permittedGuilds.length > i;) {
+			allowedGuild guild = null;
+			ServerInstance newServer = null;
 			guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
 			newServer = new ServerInstance(guild);
 			writeLog("made guild " + guild.getName() + " guildID:" + guild.getServerID() + " channelID:"

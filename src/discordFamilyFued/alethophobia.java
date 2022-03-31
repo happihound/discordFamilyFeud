@@ -17,11 +17,7 @@ public class alethophobia extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		System.out.println("EVENT IN " + event.getGuild().getId());
-		System.out.println("CHECKING SERVER " + servers.get(1).getID() + " " + 1 + servers.get(1).getName());
-		System.out.println("CHECKING SERVER " + servers.get(0).getID() + " " + 0 + servers.get(0).getName());
 		for (int i = 0; servers.size() > i;) {
-			System.out.println("CHECKING SERVER " + servers.get(i).getID() + " " + i + servers.get(i).getName());
 			if (event.getGuild().getId().equals(servers.get(i).getID())) {
 				servers.get(i).onMessageReceived(event);
 				return;
