@@ -14,7 +14,7 @@ import java.util.Random;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Game extends ServerInstance {
+class Game {
 	boolean running;
 	allowedGuild guild;
 	String[] pathnames;
@@ -22,11 +22,11 @@ public class Game extends ServerInstance {
 	questionDatabase questionDatabase;
 	long botGameMessageID;
 	ArrayList<String> Roster;
+	ServerInstance server;
 
-	public Game(allowedGuild guild1) {
-
-		super(guild1);
-		guild = guild1;
+	public Game(ServerInstance thisServer) {
+		this.server = thisServer;
+		this.Roster = server.Roster;
 		running = false;
 		questionDatabase = new questionDatabase();
 		botGameMessageID = -1;
@@ -35,6 +35,7 @@ public class Game extends ServerInstance {
 	}
 
 	public void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart, int[] userAnswers1) {
+		this.Roster = Roster;
 		running = true;
 		Main.writeLog("Starting new game");
 		roundNumber = 0;
@@ -76,7 +77,7 @@ public class Game extends ServerInstance {
 				"\u0031\ufe0f\u20e3", "\u0032\ufe0f\u20e3", "\u0033\ufe0f\u20e3", "\u0034\ufe0f\u20e3",
 				"\u0035\ufe0f\u20e3", "\u0036\ufe0f\u20e3");
 
-		while (!inputOver) {
+		while (!server.getInputStatus()) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -100,7 +101,7 @@ public class Game extends ServerInstance {
 			i++;
 		}
 
-		inputOver = false;
+		server.inputStatus(false);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -112,14 +113,14 @@ public class Game extends ServerInstance {
 
 	public void endGame(MessageChannel channel) {
 		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
-		acceptingInput = false;
+		server.inputStatus(false);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
 	}
 
 	public void endGame() {
-		acceptingInput = false;
+		server.inputStatus(false);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();

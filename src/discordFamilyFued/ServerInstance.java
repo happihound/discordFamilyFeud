@@ -22,13 +22,16 @@ public class ServerInstance {
 	File f;
 	boolean runCommands;
 	long coolDownTime = 1;
+	boolean gameRunning;
 	boolean acceptingInput;
 	boolean inputOver;
 	ArrayList<String> Roster;
 	allowedGuild permittedGuild;
+
 	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
+		gameRunning = false;
 		Roster = new ArrayList<String>();
 		inputOver = false;
 		acceptingInput = false;
@@ -52,24 +55,13 @@ public class ServerInstance {
 	public void makeNewGame(MessageChannel channel) {
 		channel.sendMessage("Making a new game...").queue();
 		channel.sendMessage("Do !join to join the match!").queue();
+		acceptingInput = true;
+		Roster.clear();
 
-		if (newGame == null) {
-			newGame = new Game(permittedGuild);
-			return;
-		} else if (!newGame.getRunning()) {
-			newGame = new Game(permittedGuild);
-			return;
-		} else {
-			destroyGame();
-			newGame = new Game(permittedGuild);
-
-		}
 	}
 
-	public void destroyGame() {
-		if (newGame.getRunning()) {
-			newGame.endGame();
-		}
+	public ArrayList<String> getRoster() {
+		return Roster;
 	}
 
 	public void onMessageReceived(MessageReceivedEvent event) {
@@ -210,6 +202,10 @@ public class ServerInstance {
 
 	}
 
+	public boolean getInputStatus() {
+		return inputOver;
+	}
+
 	public int[] getUserChoices() {
 		return userChoices;
 	}
@@ -240,7 +236,10 @@ public class ServerInstance {
 	}
 
 	public void join(String[] commandString, String user, MessageChannel channel) {
-		if (!getGame().Roster.contains(user)) {
+		if (Roster == null || Roster.size() == 0) {
+			Roster.add(user);
+			channel.sendMessage(user + " joined the game!").queue();
+		} else if (!getGame().Roster.contains(user)) {
 			getGame().Roster.add(user);
 			channel.sendMessage(user + " joined the game!").queue();
 			return;
@@ -256,17 +255,17 @@ public class ServerInstance {
 	}
 
 	public boolean gameStatus() {
-		if (newGame == null) {
-			return false;
-		}
 
-		if (newGame.getRunning()) {
-			return true;
-		}
-		return false;
+		return gameRunning;
+	}
+
+	public void gameStatus(boolean setting) {
+		gameRunning = setting;
 	}
 
 	public void start(MessageChannel channel, boolean forceStart) {
+		gameRunning = true;
+		newGame = new Game(this);
 		userChoices = new int[getGame().Roster.size()];
 		for (int i = 0; userChoices.length > i;) {
 			userChoices[i] = -1;
