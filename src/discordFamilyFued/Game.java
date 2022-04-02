@@ -16,8 +16,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 class Game {
 	boolean running;
-	allowedGuild guild;
-	String[] pathnames;
+	// String[] pathnames;
 	int roundNumber;
 	questionDatabase questionDatabase;
 	long botGameMessageID;
@@ -25,6 +24,7 @@ class Game {
 	ServerInstance server;
 
 	public Game(ServerInstance thisServer) {
+
 		this.server = thisServer;
 		this.Roster = server.Roster;
 		running = false;
@@ -34,8 +34,8 @@ class Game {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void startNewGame(ArrayList<String> Roster, MessageChannel channel, boolean forceStart, int[] userAnswers1) {
-		this.Roster = Roster;
+	public void startNewGame(MessageChannel channel, boolean forceStart, int[] userAnswers1) {
+		final ArrayList<String> Roster = this.Roster;
 		running = true;
 		Main.writeLog("Starting new game");
 		roundNumber = 0;
@@ -102,6 +102,7 @@ class Game {
 		}
 
 		server.inputStatus(false);
+		server.acceptingInput = false;
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -138,9 +139,9 @@ class Game {
 
 	public void makeUserFile(String user) {
 		user = user.replaceAll(".txt", "");
-		Main.writeLog("made new user " + user + " in server " + guild.getName());
+		Main.writeLog("made new user " + user + " in server " + server.getName());
 		try {
-			FileOutputStream fos = new FileOutputStream(Main.userFileLocation + user + ".txt", false);
+			FileOutputStream fos = new FileOutputStream(server.fileLocation + user + ".txt", false);
 			String str = user + "\n" + "points=0";
 			byte[] b = str.getBytes(); // converts string into bytes
 			fos.write(b); // writes bytes into file
@@ -161,7 +162,7 @@ class Game {
 
 		List<String> newLines = new ArrayList<>();
 		try {
-			for (String line : Files.readAllLines(Paths.get(Main.userFileLocation + user + ".txt"),
+			for (String line : Files.readAllLines(Paths.get(server.fileLocation + user + ".txt"),
 					StandardCharsets.UTF_8)) {
 				if (line.contains("points=")) {
 					newLines.add("points=" + (basePoints + points));
@@ -178,7 +179,7 @@ class Game {
 			return -1;
 		}
 		try {
-			Files.write(Paths.get(Main.userFileLocation + user + ".txt"), newLines, StandardCharsets.UTF_8);
+			Files.write(Paths.get(server.fileLocation + user + ".txt"), newLines, StandardCharsets.UTF_8);
 			return 1;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -195,7 +196,7 @@ class Game {
 		}
 
 		try {
-			for (String line : Files.readAllLines(Paths.get(Main.userFileLocation + user + ".txt"),
+			for (String line : Files.readAllLines(Paths.get(server.fileLocation + user + ".txt"),
 					StandardCharsets.UTF_8)) {
 				if (line.contains("points=")) {
 					if (!(Integer.parseInt(line.replaceAll("[^0-9]*", "")) >= 0)) {
@@ -216,8 +217,8 @@ class Game {
 	}
 
 	public boolean userExists(String user) {
-		File f = new File(Main.userFileLocation);
-		pathnames = f.list();
+		File f = new File(server.fileLocation);
+		String[] pathnames = f.list();
 		user = user.replaceAll(".txt", "");
 		if (Arrays.asList(pathnames).contains(user.toLowerCase() + ".txt")) {
 			return true;

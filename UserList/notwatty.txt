@@ -1,2 +1,2 @@
 notwatty
-points=0
+points=34

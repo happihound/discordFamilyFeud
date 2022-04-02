@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
@@ -37,6 +39,12 @@ public class Main extends JPanel implements ActionListener {
 			newServer = new ServerInstance(guild);
 			writeLog("made guild " + guild.getName() + " guildID:" + guild.getServerID() + " channelID:"
 					+ guild.getChannelID());
+			try {
+				Files.createDirectories(Paths.get(userFileLocation + permittedGuilds[i] + "\\"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			servers.add(newServer);
 			i++;
 		}

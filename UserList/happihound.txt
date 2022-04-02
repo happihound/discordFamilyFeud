@@ -1,2 +1,2 @@
 happihound
-points=0
+points=27

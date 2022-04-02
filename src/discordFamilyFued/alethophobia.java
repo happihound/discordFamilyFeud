@@ -30,7 +30,7 @@ public class alethophobia extends ListenerAdapter {
 	@Override
 	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		for (int i = 0; servers.size() > i;) {
-			if (event.getGuild().getId() == servers.get(i).getID()) {
+			if (event.getGuild().getId().equals(servers.get(i).getID())) {
 				servers.get(i).onMessageReactionAdd(event);
 				return;
 			}

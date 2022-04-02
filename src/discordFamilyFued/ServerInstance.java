@@ -1,9 +1,7 @@
 package discordFamilyFued;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,30 +13,25 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
-public class ServerInstance {
+class ServerInstance {
 	int[] userChoices;
-	String[] pathnames;
-	Random rand;
-	File f;
 	boolean runCommands;
-	long coolDownTime = 1;
 	boolean gameRunning;
 	boolean acceptingInput;
 	boolean inputOver;
 	ArrayList<String> Roster;
 	allowedGuild permittedGuild;
-
+	String fileLocation;
 	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
+		permittedGuild = guild;
 		gameRunning = false;
 		Roster = new ArrayList<String>();
 		inputOver = false;
 		acceptingInput = false;
 		runCommands = true;
-		f = new File(Main.userFileLocation);
-		rand = new Random();
-		permittedGuild = guild;
+		fileLocation = Main.userFileLocation + getID() + "\\";
 
 	}
 
@@ -65,7 +58,7 @@ public class ServerInstance {
 	}
 
 	public void onMessageReceived(MessageReceivedEvent event) {
-		pathnames = f.list();
+		// pathnames = f.list();
 		String userName = "happihound";
 		User user = event.getAuthor();
 		Message message = event.getMessage();
@@ -174,15 +167,15 @@ public class ServerInstance {
 		String msg = message.getAsReactionCode(); // This returns a human readable version of the reaction. Similar to
 
 		System.out.println(userName);
-		for (int i = 0; getGame().Roster.size() > i;) {
-			if (userName.equalsIgnoreCase(getGame().Roster.get(i))) {
+		for (int i = 0; Roster.size() > i;) {
+			if (userName.equalsIgnoreCase(Roster.get(i))) {
 				int answerChoice = reactionToValue(msg) - 1;
 				if (answerChoice < 0 || answerChoice > 6) {
 					System.out.println("not a valid reaction!");
 					return;
 				}
 				userChoices[i] = answerChoice;
-				System.out.println("set message for user " + getGame().Roster.get(i) + " " + userChoices[i]);
+				System.out.println("set message for user " + Roster.get(i) + " " + userChoices[i]);
 
 			}
 
@@ -239,12 +232,12 @@ public class ServerInstance {
 		if (Roster == null || Roster.size() == 0) {
 			Roster.add(user);
 			channel.sendMessage(user + " joined the game!").queue();
-		} else if (!getGame().Roster.contains(user)) {
-			getGame().Roster.add(user);
-			channel.sendMessage(user + " joined the game!").queue();
+		} else if (Roster.contains(user)) {
+			channel.sendMessage(user + " you can't join twice!").queue();
 			return;
 		} else {
-			channel.sendMessage(user + " you can't join twice!").queue();
+			Roster.add(user);
+			channel.sendMessage(user + " joined the game!").queue();
 		}
 
 	}
@@ -266,7 +259,7 @@ public class ServerInstance {
 	public void start(MessageChannel channel, boolean forceStart) {
 		gameRunning = true;
 		newGame = new Game(this);
-		userChoices = new int[getGame().Roster.size()];
+		userChoices = new int[Roster.size()];
 		for (int i = 0; userChoices.length > i;) {
 			userChoices[i] = -1;
 			i++;
@@ -275,7 +268,7 @@ public class ServerInstance {
 			@Override
 			public void run() {
 				if (acceptingInput) {
-					getGame().startNewGame(getGame().Roster, channel, forceStart, userChoices);
+					getGame().startNewGame(channel, forceStart, userChoices);
 					return;
 				}
 				channel.sendMessage("Starting new game..." + "\n" + "Do !join to join the game!").queue();
@@ -286,8 +279,8 @@ public class ServerInstance {
 	}
 
 	public void leave(String[] commandString, String user, MessageChannel channel) {
-		if (getGame().Roster.contains(user)) {
-			getGame().Roster.remove(new String(user));
+		if (Roster.contains(user)) {
+			Roster.remove(new String(user));
 			channel.sendMessage(user + " left the game!").queue();
 			return;
 		} else {
