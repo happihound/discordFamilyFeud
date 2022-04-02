@@ -17,7 +17,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 class Game {
 	boolean running;
 	// String[] pathnames;
-	int roundNumber;
 	questionDatabase questionDatabase;
 	long botGameMessageID;
 	ArrayList<String> Roster;
@@ -35,27 +34,27 @@ class Game {
 	}
 
 	public void startNewGame(MessageChannel channel, boolean forceStart, int[] userAnswers1) {
+		server.roundNumber++;
 		final ArrayList<String> Roster = this.Roster;
 		running = true;
 		Main.writeLog("Starting new game");
-		roundNumber = 0;
 		channel.sendMessage("*The game is about to begin!*").queue();
+		if (server.roundNumber == 0) {
+			for (int i = 0; Roster.size() > i;) {
+				makeUserFile(Roster.get(i));
+				i++;
 
-		for (int i = 0; Roster.size() > i;) {
-			makeUserFile(Roster.get(i));
-			i++;
-
+			}
 		}
 
-		if (roundNumber != 2) {
-			newRound(Roster, channel, userAnswers1);
-		} else {
+		if (server.roundNumber == 5) {
 			endGame(channel);
+			return;
 		}
+		newRound(Roster, channel, userAnswers1);
 	}
 
 	public void newRound(ArrayList<String> Roster, MessageChannel channel, int[] userAnswers1) {
-		roundNumber++;
 		Random rand = new Random();
 		int randomNumber = rand.nextInt(discordFamilyFued.questionDatabase.getLineCount("questions.txt"));
 		String[] answers = questionDatabase.getAnswer(randomNumber);

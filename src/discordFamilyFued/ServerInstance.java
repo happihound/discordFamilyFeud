@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 class ServerInstance {
 	int[] userChoices;
+	int roundNumber;
 	boolean runCommands;
 	boolean gameRunning;
 	boolean acceptingInput;
@@ -25,6 +26,7 @@ class ServerInstance {
 	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
+		roundNumber = -1;
 		permittedGuild = guild;
 		gameRunning = false;
 		Roster = new ArrayList<String>();
@@ -46,10 +48,23 @@ class ServerInstance {
 	}
 
 	public void makeNewGame(MessageChannel channel) {
+		roundNumber = -1;
 		channel.sendMessage("Making a new game...").queue();
 		channel.sendMessage("Do !join to join the match!").queue();
 		acceptingInput = true;
 		Roster.clear();
+
+	}
+
+	public void makeNextRound(MessageChannel channel) {
+		roundNumber++;
+		if (roundNumber != 5) {
+			channel.sendMessage("Making a new round...").queue();
+			acceptingInput = true;
+			start(channel, true);
+		} else {
+			newGame.endGame(channel);
+		}
 
 	}
 
@@ -107,6 +122,8 @@ class ServerInstance {
 							if (!acceptingInput) {
 								makeNewGame(channel);
 							}
+						} else if ((commandString[0].equalsIgnoreCase("next") && (Roster.size() != 0))) {
+							makeNextRound(channel);
 						}
 
 						if (runCommands && acceptingInput) {

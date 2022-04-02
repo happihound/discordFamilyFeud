@@ -30,6 +30,7 @@ public class Main extends JPanel implements ActionListener {
 	static String[] permittedChannels = { "954205423257403452", "958474528881778729" };
 	static String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
 
+	// to do: add a restart method for servers
 	public static void main(String[] args) {
 		ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
 		for (int i = 0; permittedGuilds.length > i;) {
