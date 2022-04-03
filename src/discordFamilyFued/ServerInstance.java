@@ -61,7 +61,7 @@ class ServerInstance {
 		if (roundNumber != 5) {
 			channel.sendMessage("Making a new round...").queue();
 			acceptingInput = true;
-			start(channel, true);
+			start(channel);
 		} else {
 			newGame.endGame(channel);
 		}
@@ -130,7 +130,7 @@ class ServerInstance {
 
 							if (commandString.length == 2 && commandString[1].equalsIgnoreCase("force")
 									&& commandString[0].equalsIgnoreCase("start") && userIsAdmin) {
-								start(channel, true);
+								start(channel);
 
 							}
 
@@ -145,7 +145,7 @@ class ServerInstance {
 							}
 
 							else if (commandString[0].equalsIgnoreCase("start") && commandString.length == 1) {
-								start(channel, false);
+								start(channel);
 							}
 
 							else if (runCommands == false) {
@@ -273,7 +273,7 @@ class ServerInstance {
 		gameRunning = setting;
 	}
 
-	public void start(MessageChannel channel, boolean forceStart) {
+	public void start(MessageChannel channel) {
 		gameRunning = true;
 		newGame = new Game(this);
 		userChoices = new int[Roster.size()];
@@ -285,7 +285,7 @@ class ServerInstance {
 			@Override
 			public void run() {
 				if (acceptingInput) {
-					getGame().startNewGame(channel, forceStart, userChoices);
+					getGame().startNewGame(channel, userChoices);
 					return;
 				}
 				channel.sendMessage("Starting new game..." + "\n" + "Do !join to join the game!").queue();

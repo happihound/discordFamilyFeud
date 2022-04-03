@@ -33,7 +33,7 @@ class Game {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void startNewGame(MessageChannel channel, boolean forceStart, int[] userAnswers1) {
+	public void startNewGame(MessageChannel channel, int[] userAnswers1) {
 		server.roundNumber++;
 		final ArrayList<String> Roster = this.Roster;
 		running = true;
@@ -103,16 +103,20 @@ class Game {
 		server.inputStatus(false);
 		server.acceptingInput = false;
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		if (server.roundNumber == 4) {
+			endGame(channel);
+		}
+
 	}
 
 	public void endGame(MessageChannel channel) {
-		channel.sendMessage("**Thanks for playing! You can start a new game with !join.**").queue();
+		channel.sendMessage("**Thanks for playing! You can start a new game with !new.**").queue();
 		server.inputStatus(false);
 		running = false;
 		Thread thread = Thread.currentThread();
