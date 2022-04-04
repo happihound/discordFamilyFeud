@@ -16,15 +16,17 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 class ServerInstance {
 	int[] userChoices;
 	int roundNumber;
-	int gameProgress;
+	int gameState;
 	ArrayList<String> Roster;
 	final allowedGuild guild;
 	final String fileLocation;
+	alethophobia alethophobia;
 	Game newGame;
 
-	public ServerInstance(allowedGuild guild) {
-		gameProgress = -1;
-		roundNumber = -1;
+	public ServerInstance(allowedGuild guild, alethophobia alethophobia) {
+		this.alethophobia = alethophobia;
+		setGameState(-1);
+		setRoundNumber(-1);
 		this.guild = guild;
 		Roster = new ArrayList<String>();
 		fileLocation = Main.userFileLocation + getID() + "\\";
@@ -49,23 +51,35 @@ class ServerInstance {
 		return guild.getServerID();
 	}
 
+	public void setRoundNumber(int updatedRoundNumber) {
+		roundNumber = updatedRoundNumber;
+	}
+
 	public void makeNewGame(MessageChannel channel) {
-		roundNumber = -1;
+		setRoundNumber(-1);
 		channel.sendMessage("Making a new game...").queue();
 		channel.sendMessage("Do !join to join the match!").queue();
-		gameProgress = 0;
+		setGameState(0);
 		Roster.clear();
 
 	}
 
+	public void setGameState(int updatedGameState) {
+		gameState = updatedGameState;
+	}
+
 	public void makeNextRound(MessageChannel channel) {
-		gameProgress = 3;
-		if (roundNumber != 5) {
+		setGameState(3);
+		if (getRoundNumber() != 5) {
 			start(channel);
 		} else {
 			newGame.endGame(channel);
 		}
 
+	}
+
+	public int getGameState() {
+		return gameState;
 	}
 
 	public ArrayList<String> getRoster() {
@@ -119,11 +133,13 @@ class ServerInstance {
 
 						} else if (commandString[0].equalsIgnoreCase("Newgame")
 								|| (commandString[0].equalsIgnoreCase("new"))) {
-							if (gameProgress == -1 || gameProgress == 3) {
+							if (getGameState() == -1 || getGameState() == 3) {
 								makeNewGame(channel);
 							}
+						} else if (commandString[0].equalsIgnoreCase("restart")) {
+							restart(channel);
 						}
-						if (gameProgress == 0) {
+						if (getGameState() == 0) {
 
 							if (commandString[0].equalsIgnoreCase("join") && commandString.length == 1) {
 
@@ -139,10 +155,10 @@ class ServerInstance {
 								start(channel);
 							}
 
-						} else if (gameProgress == -2 && (command.contains("!join") || command.contains("!start")
+						} else if (getGameState() == -2 && (command.contains("!join") || command.contains("!start")
 								|| command.contains("!leave"))) {
 							channel.sendMessage("The game is offline and commands are disabled").queue();
-						} else if (gameProgress == -1 && (command.contains("!join") || command.contains("!start")
+						} else if (getGameState() == -1 && (command.contains("!join") || command.contains("!start")
 								|| command.contains("!leave"))) {
 							channel.sendMessage("No game is running right now. Do !new to start a new game.").queue();
 						}
@@ -194,16 +210,8 @@ class ServerInstance {
 			i++;
 
 		}
-		gameProgress = 2;
+		setGameState(2);
 
-	}
-
-	public int getGameProgress() {
-		return gameProgress;
-	}
-
-	public void setGameProgress(int gameProgress) {
-		this.gameProgress = gameProgress;
 	}
 
 	public int[] getUserChoices() {
@@ -264,12 +272,12 @@ class ServerInstance {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if (gameProgress == 3) {
-					channel.sendMessage("**__Starting Round: " + (roundNumber + 2) + "__**").queue();
+				if (getGameState() == 3) {
+					channel.sendMessage("**__Starting Round: " + (getRoundNumber() + 2) + "__**").queue();
 					getGame().startNewGame(channel, userChoices);
 					return;
-				} else if (gameProgress == 0) {
-					gameProgress = 1;
+				} else if (getGameState() == 0) {
+					setGameState(1);
 					channel.sendMessage("**__Starting Round: 1__**").queue();
 					getGame().startNewGame(channel, userChoices);
 					return;
@@ -293,17 +301,17 @@ class ServerInstance {
 
 	public void on(String user, MessageChannel channel) {
 		channel.sendMessage("Operator " + user + " changed game status to online").queue();
-		gameProgress = -1;
+		setGameState(-1);
 		Main.writeLog("Status was changed to on by " + user);
 	}
 
 	public void off(String user, MessageChannel channel) {
-		if (gameProgress > 0) {
+		if (getGameState() > 0) {
 			getGame().endGame(channel);
 		}
 		channel.sendMessage("Operator " + user + " changed game status to offline").queue();
 		Main.writeLog("Status was changed to off by " + user);
-		gameProgress = -2;
+		setGameState(-2);
 	}
 
 	public void forcestop() {
@@ -312,5 +320,13 @@ class ServerInstance {
 
 	public int getRoundNumber() {
 		return roundNumber;
+	}
+
+	public String getFileLocation() {
+		return fileLocation;
+	}
+
+	public void restart(MessageChannel channel) {
+		alethophobia.restartServer(this, guild, channel);
 	}
 }

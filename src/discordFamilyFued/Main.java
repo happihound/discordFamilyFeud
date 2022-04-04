@@ -2,9 +2,6 @@ package discordFamilyFued;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
@@ -29,31 +26,13 @@ public class Main {
 
 	// to do: add a restart method for servers
 	public static void main(String[] args) {
-		ArrayList<ServerInstance> servers = new ArrayList<ServerInstance>();
-		for (int i = 0; permittedGuilds.length > i;) {
-			allowedGuild guild = null;
-			ServerInstance newServer = null;
-			guild = new allowedGuild(permittedGuilds[i], permittedChannels[i], permittedServerNames[i]);
-			newServer = new ServerInstance(guild);
-			writeLog("made guild " + guild.getName() + " guildID:" + guild.getServerID() + " channelID:"
-					+ guild.getChannelID());
-			try {
-				Files.createDirectories(Paths.get(userFileLocation + permittedGuilds[i] + "\\"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			servers.add(newServer);
-			i++;
-		}
 
 		writeLog("program started");
-		// starts the drawing and connects the twitchbot
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 
-				connect1(servers);
+				connect1();
 			}
 		}).start();
 		// continually redraws the display to keep it updated in parallel to other tasks
@@ -70,11 +49,11 @@ public class Main {
 		}
 	}
 
-	public static void connect1(ArrayList<ServerInstance> servers) {
+	public static void connect1() {
 		writeLog("bot connecting");
 		try {
 			JDA alethophobia = JDABuilder.createDefault("OTU0MjAyNzgwNjA2ODE2Mzc2.YjPslw.gvkvX-qNL_kzSWylMnDXDhKDH9s")
-					.addEventListeners(new alethophobia(servers)) // An instance of a class that will handle events.
+					.addEventListeners(new alethophobia()) // An instance of a class that will handle events.
 					.build();
 			alethophobia.awaitReady(); // Blocking guarantees that JDA will be completely loaded.
 			System.out.println("Finished Building JDA!");

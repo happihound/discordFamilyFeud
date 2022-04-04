@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class questionDatabase {
-	// static Random rand = new Random();
 	static File questions = new File(Main.questionFileLocation + "questions.txt");
 	static File firstPlace = new File(Main.questionFileLocation + "firstPlace.txt");
 	static File secondPlace = new File(Main.questionFileLocation + "secondPlace.txt");
@@ -49,7 +48,6 @@ public class questionDatabase {
 		answers[3] = fourthPlaceAnswers[QuestionNumber];
 		answers[4] = fifthPlaceAnswers[QuestionNumber];
 		answers[5] = sixthPlaceAnswers[QuestionNumber];
-
 		return answers;
 	}
 

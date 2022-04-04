@@ -37,11 +37,11 @@ class Game {
 	}
 
 	public void startNewGame(MessageChannel channel, int[] userAnswers1) {
-		server.roundNumber++;
+		server.setRoundNumber(server.getRoundNumber() + 1);
 		final ArrayList<String> Roster = this.Roster;
 		running = true;
 		Main.writeLog("Starting new round");
-		if (server.roundNumber == 0) {
+		if (server.getRoundNumber() == 0) {
 			for (int i = 0; Roster.size() > i;) {
 				makeUserFile(Roster.get(i));
 				i++;
@@ -49,7 +49,7 @@ class Game {
 			}
 		}
 
-		if (server.roundNumber == 5) {
+		if (server.getRoundNumber() == 5) {
 			endGame(channel);
 			return;
 		}
@@ -78,7 +78,7 @@ class Game {
 				"\u0031\ufe0f\u20e3", "\u0032\ufe0f\u20e3", "\u0033\ufe0f\u20e3", "\u0034\ufe0f\u20e3",
 				"\u0035\ufe0f\u20e3", "\u0036\ufe0f\u20e3");
 
-		while (server.getGameProgress() != 2) {
+		while (server.getGameState() != 2) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -102,7 +102,7 @@ class Game {
 			i++;
 		}
 
-		server.setGameProgress(3);
+		server.setGameState(3);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -138,14 +138,14 @@ class Game {
 		}
 		channel.sendMessage("**Thanks for playing!" + "\n" + endScore + "You can start a new game with !new.**")
 				.queue();
-		server.setGameProgress(-1);
+		server.setGameState(-1);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
 	}
 
 	public void endGame() {
-		server.setGameProgress(-1);
+		server.setGameState(-1);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
@@ -165,7 +165,7 @@ class Game {
 		user = user.replaceAll(".txt", "");
 		Main.writeLog("made new user " + user + " in server " + server.getName());
 		try {
-			FileOutputStream fos = new FileOutputStream(server.fileLocation + user + ".txt", false);
+			FileOutputStream fos = new FileOutputStream(server.getFileLocation() + user + ".txt", false);
 			String str = user + "\n" + "points=0";
 			byte[] b = str.getBytes(); // converts string into bytes
 			fos.write(b); // writes bytes into file
@@ -186,7 +186,7 @@ class Game {
 
 		List<String> newLines = new ArrayList<>();
 		try {
-			for (String line : Files.readAllLines(Paths.get(server.fileLocation + user + ".txt"),
+			for (String line : Files.readAllLines(Paths.get(server.getFileLocation() + user + ".txt"),
 					StandardCharsets.UTF_8)) {
 				if (line.contains("points=")) {
 					newLines.add("points=" + (basePoints + points));
@@ -203,7 +203,7 @@ class Game {
 			return -1;
 		}
 		try {
-			Files.write(Paths.get(server.fileLocation + user + ".txt"), newLines, StandardCharsets.UTF_8);
+			Files.write(Paths.get(server.getFileLocation() + user + ".txt"), newLines, StandardCharsets.UTF_8);
 			return 1;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -220,7 +220,7 @@ class Game {
 		}
 
 		try {
-			for (String line : Files.readAllLines(Paths.get(server.fileLocation + user + ".txt"),
+			for (String line : Files.readAllLines(Paths.get(server.getFileLocation() + user + ".txt"),
 					StandardCharsets.UTF_8)) {
 				if (line.contains("points=")) {
 					if (!(Integer.parseInt(line.replaceAll("[^0-9]*", "")) >= 0)) {
@@ -241,7 +241,7 @@ class Game {
 	}
 
 	public boolean userExists(String user) {
-		File f = new File(server.fileLocation);
+		File f = new File(server.getFileLocation());
 		String[] pathnames = f.list();
 		user = user.replaceAll(".txt", "");
 		if (Arrays.asList(pathnames).contains(user.toLowerCase() + ".txt")) {
