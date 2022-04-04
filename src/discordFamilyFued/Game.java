@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 
@@ -37,8 +40,7 @@ class Game {
 		server.roundNumber++;
 		final ArrayList<String> Roster = this.Roster;
 		running = true;
-		Main.writeLog("Starting new game");
-		channel.sendMessage("*The game is about to begin!*").queue();
+		Main.writeLog("Starting new round");
 		if (server.roundNumber == 0) {
 			for (int i = 0; Roster.size() > i;) {
 				makeUserFile(Roster.get(i));
@@ -76,7 +78,7 @@ class Game {
 				"\u0031\ufe0f\u20e3", "\u0032\ufe0f\u20e3", "\u0033\ufe0f\u20e3", "\u0034\ufe0f\u20e3",
 				"\u0035\ufe0f\u20e3", "\u0036\ufe0f\u20e3");
 
-		while (!server.getInputStatus()) {
+		while (server.getGameProgress() != 2) {
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -100,8 +102,7 @@ class Game {
 			i++;
 		}
 
-		server.inputStatus(false);
-		server.acceptingInput = false;
+		server.setGameProgress(3);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -109,22 +110,42 @@ class Game {
 			e.printStackTrace();
 		}
 
-		if (server.roundNumber == 4) {
+		if (server.getRoundNumber() >= 2) {
 			endGame(channel);
+		} else {
+			server.makeNextRound(channel);
 		}
+
+		return;
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void endGame(MessageChannel channel) {
-		channel.sendMessage("**Thanks for playing! You can start a new game with !new.**").queue();
-		server.inputStatus(false);
+		String endScore = "";
+		SortedMap<Integer, String> tm1 = new TreeMap<Integer, String>();
+
+		for (int i = 0; Roster.size() > i;) {
+			tm1.put(getUserPoints(Roster.get(i)), Roster.get(i));
+
+			i++;
+		}
+		for (Map.Entry mapElement : tm1.entrySet()) {
+			int key = (int) mapElement.getKey();
+			String value = (String) mapElement.getValue();
+			endScore = endScore + value + " earned " + key + " points! " + "\n";
+
+		}
+		channel.sendMessage("**Thanks for playing!" + "\n" + endScore + "You can start a new game with !new.**")
+				.queue();
+		server.setGameProgress(-1);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();
 	}
 
 	public void endGame() {
-		server.inputStatus(false);
+		server.setGameProgress(-1);
 		running = false;
 		Thread thread = Thread.currentThread();
 		thread.stop();

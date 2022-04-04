@@ -16,51 +16,51 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 class ServerInstance {
 	int[] userChoices;
 	int roundNumber;
-	boolean runCommands;
-	boolean gameRunning;
-	boolean acceptingInput;
-	boolean inputOver;
+	int gameProgress;
 	ArrayList<String> Roster;
-	allowedGuild permittedGuild;
-	String fileLocation;
+	final allowedGuild guild;
+	final String fileLocation;
 	Game newGame;
 
 	public ServerInstance(allowedGuild guild) {
+		gameProgress = -1;
 		roundNumber = -1;
-		permittedGuild = guild;
-		gameRunning = false;
+		this.guild = guild;
 		Roster = new ArrayList<String>();
-		inputOver = false;
-		acceptingInput = false;
-		runCommands = true;
 		fileLocation = Main.userFileLocation + getID() + "\\";
 
 	}
 
+	// Game progress is as follows
+	// -2 = game is turned off by a moderator
+	// -1 = no game has been started or is going on
+	// 0 = game is in the joining phase, but not actively running
+	// 1 = a round is currently in progress
+	// 2 = users have finished inputing their choices
+	// 3 = a round has ended and is ready to begin a new round
+
 	public String getName() {
 
-		return permittedGuild.getName();
+		return guild.getName();
 	}
 
 	public String getID() {
 
-		return permittedGuild.getServerID();
+		return guild.getServerID();
 	}
 
 	public void makeNewGame(MessageChannel channel) {
 		roundNumber = -1;
 		channel.sendMessage("Making a new game...").queue();
 		channel.sendMessage("Do !join to join the match!").queue();
-		acceptingInput = true;
+		gameProgress = 0;
 		Roster.clear();
 
 	}
 
 	public void makeNextRound(MessageChannel channel) {
-		roundNumber++;
+		gameProgress = 3;
 		if (roundNumber != 5) {
-			channel.sendMessage("Making a new round...").queue();
-			acceptingInput = true;
 			start(channel);
 		} else {
 			newGame.endGame(channel);
@@ -83,7 +83,7 @@ class ServerInstance {
 		if (event.isFromType(ChannelType.TEXT)) {
 			if (!user.isBot()) {
 
-				Guild guild = event.getGuild();
+				Guild Guild = event.getGuild();
 
 				TextChannel textChannel = event.getTextChannel();
 				channel = event.getTextChannel();
@@ -92,7 +92,7 @@ class ServerInstance {
 				userName = userName.toLowerCase();
 				System.out.printf("(%s)[%s]<%s>: %s\n", guild.getName(), textChannel.getName(), userName, msg);
 
-				if (event.getTextChannel() == guild.getTextChannelById(permittedGuild.getChannelID())) {
+				if (event.getTextChannel() == Guild.getTextChannelById(guild.getChannelID())) {
 					Character commandChar = '!';
 					if (msg.length() == 0) {
 						return;
@@ -119,22 +119,13 @@ class ServerInstance {
 
 						} else if (commandString[0].equalsIgnoreCase("Newgame")
 								|| (commandString[0].equalsIgnoreCase("new"))) {
-							if (!acceptingInput) {
+							if (gameProgress == -1 || gameProgress == 3) {
 								makeNewGame(channel);
 							}
-						} else if ((commandString[0].equalsIgnoreCase("next") && (Roster.size() != 0))) {
-							makeNextRound(channel);
 						}
+						if (gameProgress == 0) {
 
-						if (runCommands && acceptingInput) {
-
-							if (commandString.length == 2 && commandString[1].equalsIgnoreCase("force")
-									&& commandString[0].equalsIgnoreCase("start") && userIsAdmin) {
-								start(channel);
-
-							}
-
-							else if (commandString[0].equalsIgnoreCase("join") && commandString.length == 1) {
+							if (commandString[0].equalsIgnoreCase("join") && commandString.length == 1) {
 
 								join(commandString, userName, channel);
 							}
@@ -148,23 +139,18 @@ class ServerInstance {
 								start(channel);
 							}
 
-							else if (runCommands == false) {
-								if (command.contains("!join") || command.contains("!start")
-										|| command.contains("!leave")) {
-									channel.sendMessage("The game is offline and commands are disabled").queue();
-								}
-							} else if (acceptingInput == false) {
-								if (command.contains("!join") || command.contains("!start")
-										|| command.contains("!leave")) {
-									channel.sendMessage("Not currently accepting user input.").queue();
-								}
-							}
+						} else if (gameProgress == -2 && (command.contains("!join") || command.contains("!start")
+								|| command.contains("!leave"))) {
+							channel.sendMessage("The game is offline and commands are disabled").queue();
+						} else if (gameProgress == -1 && (command.contains("!join") || command.contains("!start")
+								|| command.contains("!leave"))) {
+							channel.sendMessage("No game is running right now. Do !new to start a new game.").queue();
 						}
-
 					}
-				}
 
+				}
 			}
+
 		}
 	}
 
@@ -208,12 +194,16 @@ class ServerInstance {
 			i++;
 
 		}
-		inputOver = true;
+		gameProgress = 2;
 
 	}
 
-	public boolean getInputStatus() {
-		return inputOver;
+	public int getGameProgress() {
+		return gameProgress;
+	}
+
+	public void setGameProgress(int gameProgress) {
+		this.gameProgress = gameProgress;
 	}
 
 	public int[] getUserChoices() {
@@ -264,17 +254,7 @@ class ServerInstance {
 		return newGame;
 	}
 
-	public boolean gameStatus() {
-
-		return gameRunning;
-	}
-
-	public void gameStatus(boolean setting) {
-		gameRunning = setting;
-	}
-
 	public void start(MessageChannel channel) {
-		gameRunning = true;
 		newGame = new Game(this);
 		userChoices = new int[Roster.size()];
 		for (int i = 0; userChoices.length > i;) {
@@ -284,14 +264,19 @@ class ServerInstance {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				if (acceptingInput) {
+				if (gameProgress == 3) {
+					channel.sendMessage("**__Starting Round: " + (roundNumber + 2) + "__**").queue();
+					getGame().startNewGame(channel, userChoices);
+					return;
+				} else if (gameProgress == 0) {
+					gameProgress = 1;
+					channel.sendMessage("**__Starting Round: 1__**").queue();
 					getGame().startNewGame(channel, userChoices);
 					return;
 				}
-				channel.sendMessage("Starting new game..." + "\n" + "Do !join to join the game!").queue();
+
 			}
 		}).start();
-		acceptingInput = true;
 
 	}
 
@@ -308,30 +293,24 @@ class ServerInstance {
 
 	public void on(String user, MessageChannel channel) {
 		channel.sendMessage("Operator " + user + " changed game status to online").queue();
-		runCommands = true;
+		gameProgress = -1;
 		Main.writeLog("Status was changed to on by " + user);
 	}
 
 	public void off(String user, MessageChannel channel) {
-		runCommands = false;
-		if (gameStatus()) {
+		if (gameProgress > 0) {
 			getGame().endGame(channel);
 		}
 		channel.sendMessage("Operator " + user + " changed game status to offline").queue();
 		Main.writeLog("Status was changed to off by " + user);
+		gameProgress = -2;
 	}
 
 	public void forcestop() {
 		System.exit(0);
 	}
 
-	public void ensureCapacity() {
-
+	public int getRoundNumber() {
+		return roundNumber;
 	}
-
-	public void inputStatus(boolean b) {
-		// TODO Auto-generated method stub
-		inputOver = b;
-	}
-
 }
