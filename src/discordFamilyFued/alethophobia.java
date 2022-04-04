@@ -15,8 +15,8 @@ public class alethophobia extends ListenerAdapter {
 	ArrayList<ServerInstance> servers;
 
 	public alethophobia() {
+		servers = new ArrayList<ServerInstance>();
 		for (int i = 0; Main.permittedGuilds.length > i;) {
-			servers = new ArrayList<ServerInstance>();
 			allowedGuild guild = null;
 			ServerInstance newServer = null;
 			guild = new allowedGuild(Main.permittedGuilds[i], Main.permittedChannels[i], Main.permittedServerNames[i]);
@@ -50,6 +50,7 @@ public class alethophobia extends ListenerAdapter {
 				}
 				servers.set(i, newServer);
 				channel.sendMessage("```diff\r\n" + "- THE SERVER HAS BEEN RESTARTED" + "```").queue();
+				return;
 			}
 
 			i++;
