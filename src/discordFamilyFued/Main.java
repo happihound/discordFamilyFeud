@@ -11,42 +11,27 @@ import net.dv8tion.jda.api.JDABuilder;
 public class Main {
 
 	static final String botName = "alethophobia";
-	// channel to connect to allows us to dynamically assign channel
-	// location of the user database which can be relocated anywhere
+	// root location of the user folder
 	static final String userFileLocation = ".\\Userlist\\";
+	// root location of where the question files are located
 	static final String questionFileLocation = ".\\questions\\";
-	// global variable for the names in the user database to avoid redeclaring it
-	// extensively
-	// administrator list to determine advanced commands
-	static final String[] admins = { "happihound" };
-	// static Random rand = new Random();
+	// names of admins to determine operator commands
+	static final String[] admins = { "happihound", "notwatty" };
+	// information about the servers the bot is permitted to play in
 	static final String[] permittedGuilds = { "849877469724803102", "917295004769210429" };
 	static final String[] permittedChannels = { "954205423257403452", "958474528881778729" };
 	static final String[] permittedServerNames = { "Sexy ass mom frickers", "just me" };
 
-	// to do: add a restart method for servers
 	public static void main(String[] args) {
-
 		writeLog("program started");
+		// start bot on new thread
+		// this permits total bot restart if wanted
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-
 				connect1();
 			}
 		}).start();
-		// continually redraws the display to keep it updated in parallel to other tasks
-
-	}
-
-	public static void writeLog(String message) {
-		try {
-			FileWriter fw = new FileWriter(userFileLocation + "logFile.txt", true); // the true will append the new data
-			fw.write(message + "\n");// appends the string to the file
-			fw.close();
-		} catch (IOException ioe) {
-			System.err.println("IOException: " + ioe.getMessage());
-		}
 	}
 
 	public static void connect1() {
@@ -71,6 +56,16 @@ public class Main {
 			// you use awaitReady in a thread that has the possibility of being interrupted
 			// (Sync thread usage and interrupts)
 			e.printStackTrace();
+		}
+	}
+
+	public static void writeLog(String message) {
+		try {
+			FileWriter fw = new FileWriter(userFileLocation + "logFile.txt", true); // the true will append the new data
+			fw.write(message + "\n");// appends the string to the file
+			fw.close();
+		} catch (IOException ioe) {
+			System.err.println("IOException: " + ioe.getMessage());
 		}
 	}
 

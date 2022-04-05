@@ -229,16 +229,12 @@ class ServerInstance {
 			value = 2;
 		} else if (msg.equals("\u0033\ufe0f\u20e3")) {
 			value = 3;
-
 		} else if (msg.equals("\u0034\ufe0f\u20e3")) {
 			value = 4;
-
 		} else if (msg.equals("\u0035\ufe0f\u20e3")) {
 			value = 5;
-
 		} else if (msg.equals("\u0036\ufe0f\u20e3")) {
 			value = 6;
-
 		}
 		return value;
 	}
@@ -307,7 +303,7 @@ class ServerInstance {
 
 	public void off(String user, MessageChannel channel) {
 		if (getGameState() > 0) {
-			getGame().endGame(channel);
+			getGame().endGame();
 		}
 		channel.sendMessage("Operator " + user + " changed game status to offline").queue();
 		Main.writeLog("Status was changed to off by " + user);
