@@ -32,5 +32,6 @@ public class allowedGuild {
 	public String getName() {
 		return serverName;
 	}
+	
 
 }

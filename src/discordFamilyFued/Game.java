@@ -235,5 +235,6 @@ class Game {
 	public void setbotGameMessageID(long ID) {
 		botGameMessageID = ID;
 	}
+	
 
 }
