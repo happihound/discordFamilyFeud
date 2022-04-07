@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="JDA/JDA-5.0.0-alpha.9-withDependencies.jar" sourcepath="JDA/JDA-5.0.0-alpha.9-sources.jar">
+	<classpathentry kind="lib" path="C:/Users/Bevan/eclipse-workspace/discordFamilyFeud/JDA/JDA-5.0.0-alpha.9-withDependencies.jar" sourcepath="JDA/JDA-5.0.0-alpha.9-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/discordFamilyFeud/JDA/JDA-5.0.0-alpha.9-javadoc.jar!/"/>
 			<attribute name="module" value="true"/>
