@@ -280,7 +280,7 @@ class ServerInstance {
   public void on(String user, MessageChannel channel) {
     channel.sendMessage("Operator " + user + " changed game status to online").queue();
     setGameState(-1);
-    Main.writeLog("Status was changed to on by " + user);
+    Main.Log("Status was changed to on by " + user);
   }
 
   public void off(String user, MessageChannel channel) {
@@ -288,7 +288,7 @@ class ServerInstance {
       getGame().endGame();
     }
     channel.sendMessage("Operator " + user + " changed game status to offline").queue();
-    Main.writeLog("Status was changed to off by " + user);
+    Main.Log("Status was changed to off by " + user);
     setGameState(-2);
   }
 
