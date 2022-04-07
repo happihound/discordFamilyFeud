@@ -45,7 +45,6 @@ public class Main {
                   new alethophobia()) // An instance of a class that will handle events.
               .build();
       alethophobia.awaitReady(); // Blocking guarantees that JDA will be completely loaded.
-      System.out.println("Finished Building JDA!");
     } catch (LoginException e) {
       // If anything goes wrong in terms of authentication, this is the exception that
       // will represent it
@@ -67,7 +66,7 @@ public class Main {
     try {
       FileWriter fw =
           new FileWriter(
-              userFileLocation + "logFile.txt", true); // the true will append the new data
+              userFileLocation + "logFile.log", true); // the true will append the new data
       fw.write(message + "\n"); // appends the string to the file
       fw.close();
     } catch (IOException ioe) {
