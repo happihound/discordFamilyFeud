@@ -23,7 +23,7 @@ public class alethophobia extends ListenerAdapter {
           new allowedGuild(
               Main.permittedGuilds[i], Main.permittedChannels[i], Main.permittedServerNames[i]);
       newServer = new ServerInstance(guild, this);
-      Main.Log(
+      Main.Logger.Log(
           "made guild "
               + guild.getName()
               + " guildID:"
@@ -44,10 +44,11 @@ public class alethophobia extends ListenerAdapter {
   public void restartServer(ServerInstance server, allowedGuild guild, MessageChannel channel) {
     for (int i = 0; servers.size() > i; ) {
       if (servers.get(i).getID() == server.getID()) {
+        Main.Logger.Log("Restarting Server");
         channel.sendMessage("```diff\r\n" + "- PLEASE HOLD RESTARTING SERVER " + "```").queue();
         ServerInstance newServer = null;
         newServer = new ServerInstance(guild, this);
-        Main.Log(
+        Main.Logger.Log(
             "remade guild "
                 + guild.getName()
                 + " guildID:"
