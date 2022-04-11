@@ -36,7 +36,7 @@ class Game {
   public void startNewGame(MessageChannel channel, int[] userAnswers1) {
     server.setRoundNumber(server.getRoundNumber() + 1);
     final ArrayList<String> Roster = this.Roster;
-    Main.Logger.Log("Starting new round");
+    Main.writeLog("Starting new round");
     if (server.getRoundNumber() == 0) {
       for (int i = 0; Roster.size() > i; ) {
         makeUserFile(Roster.get(i));
@@ -210,7 +210,7 @@ class Game {
   }
 
   public void makeUserFile(String user) {
-    Main.Logger.Log("made new user " + user + " in server " + server.getName());
+    Main.writeLog("made new user " + user + " in server " + server.getName());
     try {
       FileOutputStream fos = new FileOutputStream(server.getFileLocation() + user + ".txt", false);
       String str = user + "\n" + "points=0";

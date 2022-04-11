@@ -15,8 +15,8 @@ public class Logger {
     runNumber = (f.list().length);
     try {
       FileOutputStream fos =
-          new FileOutputStream(Main.logFileLocation + ("log " + getRunNumber()) + ".log", false);
-      String str = "New log for run: " + getRunNumber();
+          new FileOutputStream(Main.logFileLocation + ("log_" + getRunNumber()) + ".log", false);
+      String str = "\n" + "\n" + "New log for run: " + getRunNumber();
       byte[] b = str.getBytes(); // converts string into bytes
       fos.write(b); // writes bytes into file
       fos.close(); // close the file

@@ -69,6 +69,7 @@ class ServerInstance {
       commandString[i].toLowerCase();
       i++;
     }
+    Main.writeLog("Received new command in " + this.getName() + " from user " + userName);
 
     if (isAdmin(userName)) {
       switch (commandString[0]) {
@@ -78,14 +79,14 @@ class ServerInstance {
         case "off":
           off(userName, textChannel);
           return;
-        case "forcestop":
-          forcestop();
+        case "stop":
+          stop(textChannel);
           return;
         default:
       }
     }
-    if (commandString[0].equalsIgnoreCase("stop")) {
-      stop(isAdmin(userName), userName, textChannel);
+    if (commandString[0].equalsIgnoreCase("end")) {
+      endGameServer(isAdmin(userName), userName, textChannel);
       return;
     }
     if (commandString[0].equalsIgnoreCase("Newgame")
@@ -187,20 +188,24 @@ class ServerInstance {
     setGameState(2);
   }
 
-  public void stop(boolean isAdmin, String user, TextChannel channel) {
+  public void endGameServer(boolean isAdmin, String user, TextChannel channel) {
     if (getGameState() >= 0 && (Roster.size() == 1) || isAdmin == true) {
       Roster.clear();
       if (isAdmin && getGameState() > 0) {
         channel.sendMessage("Admin " + user + " ended the game!").queue();
+        Main.writeLog("Admin" + user + " ended the game in server: " + this.getName());
         getGame().endGame(channel);
         return;
       } else if (getGameState() > 0) {
         channel.sendMessage(user + " ended their game").queue();
+        Main.writeLog(user + " ended their single player game in server: " + this.getName());
         getGame().endGame(channel);
         return;
       }
       channel.sendMessage(user + " ended their game").queue();
     } else {
+      Main.writeLog(
+          user + " tried to end a game with multiple people in server: " + this.getName());
       channel.sendMessage(user + " you can't end a game with multiple people!").queue();
     }
   }
@@ -230,16 +235,21 @@ class ServerInstance {
     if (Roster == null || Roster.size() == 0) {
       Roster.add(user);
       channel.sendMessage(user + " joined the game!").queue();
+      Main.writeLog(user + " joined an empty game in server: " + this.getName());
     } else if (Roster.contains(user)) {
       channel.sendMessage(user + " you can't join twice!").queue();
+      Main.writeLog(
+          user + " tried to join but was already in the roster in server: " + this.getName());
       return;
     } else {
       Roster.add(user);
       channel.sendMessage(user + " joined the game!").queue();
+      Main.writeLog(user + " joined the game in server: " + this.getName());
     }
   }
 
   public void start(MessageChannel channel) {
+    Main.writeLog("Attempting to create new game in server: " + getName());
     newGame = new Game(this);
     userChoices = new int[Roster.size()];
     for (int i = 0; userChoices.length > i; ) {
@@ -251,12 +261,15 @@ class ServerInstance {
               @Override
               public void run() {
                 if (getGameState() == 3) {
+                  Main.writeLog(
+                      "Started round " + (getRoundNumber() + 2) + " in server: " + getName());
                   channel
                       .sendMessage("**__Starting Round: " + (getRoundNumber() + 2) + "__**")
                       .queue();
                   getGame().startNewGame(channel, userChoices);
                   return;
                 } else if (getGameState() == 0) {
+                  Main.writeLog("Started a new game in server: " + getName());
                   setGameState(1);
                   channel.sendMessage("**__Starting Round: 1__**").queue();
                   getGame().startNewGame(channel, userChoices);
@@ -271,33 +284,36 @@ class ServerInstance {
     if (Roster.contains(user)) {
       Roster.remove(new String(user));
       channel.sendMessage(user + " left the game!").queue();
+      Main.writeLog("Removed user: " + user + " from the roster in server " + this.getName());
       return;
     } else {
       channel.sendMessage(user + " you can't leave if you haven't joined!").queue();
+      Main.writeLog("User " + user + " tried to leave but wasn't in the roster");
+      return;
     }
   }
 
   public void on(String user, MessageChannel channel) {
-    channel.sendMessage("Operator " + user + " changed game status to online").queue();
+    channel.sendMessage("Operator " + user + " enabled the game").queue();
     setGameState(-1);
-    Main.Logger.Log("Status was changed to on by " + user);
+    Main.writeLog("Status was changed to on by " + user);
   }
 
   public void off(String user, MessageChannel channel) {
     if (getGameState() > 0) {
       getGame().endGame();
     }
-    channel.sendMessage("Operator " + user + " changed game status to offline").queue();
-    Main.Logger.Log("Status was changed to off by " + user);
+    channel.sendMessage("Operator " + user + " disabled the game").queue();
+    Main.writeLog("Status was changed to off by " + user);
     setGameState(-2);
   }
 
-  public void forcestop() {
-    System.exit(0);
+  public void stop(MessageChannel channel) {
+    alethophobia.stopServer(this, guild, channel);
   }
 
   public void restart(MessageChannel channel) {
-    alethophobia.restartServer(this, guild, channel);
+    alethophobia.restartServer(this, channel);
   }
 
   public void setRoundNumber(int updatedRoundNumber) {
@@ -305,7 +321,7 @@ class ServerInstance {
   }
 
   public void setGameState(int updatedGameState) {
-
+    Main.writeLog("Game state was updated to ");
     gameState = updatedGameState;
   }
 
@@ -316,12 +332,42 @@ class ServerInstance {
   public int getGameState() {
     return gameState;
     // Game progress is as follows
-    // -2 = game is turned off by a moderator
+    //
     // -1 = no game has been started or is going on
     // 0 = game is in the joining phase, but not actively running
     // 1 = a round is currently in progress
     // 2 = users have finished inputing their choices
     // 3 = a round has ended and is ready to begin a new round
+  }
+
+  public String getGameState(int state) {
+
+    switch (state) {
+      case -2:
+        {
+          return "Game was disabled by a moderator";
+        }
+      case -1:
+        {
+          return "Game was disabled by a moderator";
+        }
+      case 0:
+        {
+        }
+      case 1:
+        {
+        }
+      case 2:
+        {
+        }
+      case 3:
+        {
+        }
+      default:
+        {
+          return "ERROR NO VALID STATE";
+        }
+    }
   }
 
   public int getRoundNumber() {
@@ -337,9 +383,13 @@ class ServerInstance {
     return guild.getName();
   }
 
-  public String getID() {
+  public long getID() {
 
     return guild.getServerID();
+  }
+
+  public long getChannelID() {
+    return guild.getChannelID();
   }
 
   public Game getGame() {

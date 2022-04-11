@@ -23,7 +23,7 @@ public class alethophobia extends ListenerAdapter {
           new allowedGuild(
               Main.permittedGuilds[i], Main.permittedChannels[i], Main.permittedServerNames[i]);
       newServer = new ServerInstance(guild, this);
-      Main.Logger.Log(
+      Main.writeLog(
           "made guild "
               + guild.getName()
               + " guildID:"
@@ -41,28 +41,41 @@ public class alethophobia extends ListenerAdapter {
     }
   }
 
-  public void restartServer(ServerInstance server, allowedGuild guild, MessageChannel channel) {
+  public void restartServer(ServerInstance server, MessageChannel channel) {
     for (int i = 0; servers.size() > i; ) {
       if (servers.get(i).getID() == server.getID()) {
-        Main.Logger.Log("Restarting Server");
-        channel.sendMessage("```diff\r\n" + "- PLEASE HOLD RESTARTING SERVER " + "```").queue();
+        Main.writeLog(
+            "Trying to restart Server: " + server.getID() + "\" " + server.getName() + "\"");
+        allowedGuild guild = null;
         ServerInstance newServer = null;
+        guild =
+            new allowedGuild(
+                server.getID(), Main.permittedChannels[i], Main.permittedServerNames[i]);
         newServer = new ServerInstance(guild, this);
-        Main.Logger.Log(
-            "remade guild "
+        Main.writeLog(
+            "made guild "
                 + guild.getName()
                 + " guildID:"
                 + guild.getServerID()
                 + " channelID:"
                 + guild.getChannelID());
         try {
-          Files.createDirectories(Paths.get(Main.userFileLocation + guild.getServerID() + "\\"));
+          Files.createDirectories(
+              Paths.get(Main.userFileLocation + Main.permittedGuilds[i] + "\\"));
         } catch (IOException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
         servers.set(i, newServer);
-        channel.sendMessage("```diff\r\n" + "- THE SERVER HAS BEEN RESTARTED" + "```").queue();
+        channel
+            .sendMessage(
+                "```diff\r\n"
+                    + "- The server \""
+                    + server.getName()
+                    + "\" has been restarted"
+                    + "```")
+            .queue();
+        Main.writeLog("Successfully restarted server");
         return;
       }
 
@@ -70,10 +83,25 @@ public class alethophobia extends ListenerAdapter {
     }
   }
 
+  public void stopServer(ServerInstance server, allowedGuild guild, MessageChannel channel) {
+    for (int i = 0; servers.size() > i; ) {
+      if (servers.get(i).getID() == server.getID()) {
+        channel
+            .sendMessage("```diff\r\n" + "- Sucessfully left server: " + server.getName() + "```")
+            .queue();
+        servers.remove(i);
+        Main.writeLog(
+            "Successfully stopped server: " + server.getName() + " ID: " + server.getID());
+        return;
+      }
+      i++;
+    }
+  }
+
   @Override
   public void onMessageReceived(MessageReceivedEvent event) {
     for (int i = 0; servers.size() > i; ) {
-      if (event.getGuild().getId().equals(servers.get(i).getID())) {
+      if (event.getGuild().getIdLong() == (servers.get(i).getID())) {
         servers.get(i).onMessageReceived(event);
         return;
       }
@@ -84,7 +112,7 @@ public class alethophobia extends ListenerAdapter {
   @Override
   public void onMessageReactionAdd(MessageReactionAddEvent event) {
     for (int i = 0; servers.size() > i; ) {
-      if (event.getGuild().getId().equals(servers.get(i).getID())) {
+      if (event.getGuild().getIdLong() == (servers.get(i).getID())) {
         servers.get(i).onMessageReactionAdd(event);
         return;
       }

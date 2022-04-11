@@ -24,3 +24,4 @@ replay_pid*
 /bin/
 UserList
 *.txt
+*.log
