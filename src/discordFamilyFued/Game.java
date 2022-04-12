@@ -22,6 +22,7 @@ class Game {
   long botGameMessageID;
   ArrayList<String> Roster;
   ServerInstance server;
+  LogSystem logger = new LogSystem();
 
   public Game(ServerInstance thisServer) {
 
@@ -36,7 +37,8 @@ class Game {
   public void startNewGame(MessageChannel channel, int[] userAnswers1) {
     server.setRoundNumber(server.getRoundNumber() + 1);
     final ArrayList<String> Roster = this.Roster;
-    Main.writeLog("Starting new round");
+    logger.Log(
+        "New round in server " + server.getName() + " with roster: " + String.join(", ", Roster));
     if (server.getRoundNumber() == 0) {
       for (int i = 0; Roster.size() > i; ) {
         makeUserFile(Roster.get(i));
@@ -66,6 +68,7 @@ class Game {
       i++;
     }
     Collections.shuffle(Arrays.asList(placementOfAnswer), new Random(seed));
+    logger.Log("Question " + randomNumber + " was selected in server: " + server.getName());
     channel.sendMessage("**Question Number " + randomNumber + "**").queue();
     sendMessageWithReactions(
         channel,
@@ -103,6 +106,7 @@ class Game {
         e.printStackTrace();
       }
     }
+    logger.Log("All answers collected in server: " + server.getName());
     channel.sendMessage("**The answers are in! **").queue();
     int[] userAnswers = userAnswers1;
     String[] answers2 = questionDatabase.getAnswerAndValue(randomNumber);
@@ -192,12 +196,14 @@ class Game {
 
   @SuppressWarnings("deprecation")
   public void endGame() {
+    logger.Log("WARNING: Game was stopped unexpectedly in server " + server.getName() + "!");
     server.setGameState(-1);
     Thread thread = Thread.currentThread();
     thread.stop();
   }
 
   public void sendMessageWithReactions(MessageChannel channel, String embed, String... reactions) {
+    logger.Log("Sucessfully sent the question message in server: " + server.getName());
     channel
         .sendMessage(embed)
         .queue(
@@ -210,7 +216,7 @@ class Game {
   }
 
   public void makeUserFile(String user) {
-    Main.writeLog("made new user " + user + " in server " + server.getName());
+    logger.Log("made new user " + user + " in server " + server.getName());
     try {
       FileOutputStream fos = new FileOutputStream(server.getFileLocation() + user + ".txt", false);
       String str = user + "\n" + "points=0";
@@ -223,6 +229,7 @@ class Game {
   }
 
   public int addUserPoints(String user, int points) {
+    logger.Log("Trying to add points to user: " + user);
     int basePoints = getUserPoints(user);
     if (!userExists(user)) {
       return -2;
@@ -234,12 +241,19 @@ class Game {
               Paths.get(server.getFileLocation() + user + ".txt"), StandardCharsets.UTF_8)) {
         if (line.contains("points=")) {
           newLines.add("points=" + (basePoints + points));
+          logger.Log(
+              "Successfully added points to User "
+                  + user
+                  + " "
+                  + basePoints
+                  + " -> "
+                  + (basePoints + points));
         } else {
           newLines.add(line);
         }
       }
     } catch (IOException e) {
-      // TODO Auto-generated catch block
+      logger.warn(1);
       e.printStackTrace();
       return -1;
     }

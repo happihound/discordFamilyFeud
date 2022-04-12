@@ -19,11 +19,12 @@ public class Main {
   static final long[] permittedGuilds = {849877469724803102L, 917295004769210429L};
   static final long[] permittedChannels = {954205423257403452L, 958474528881778729L};
   static final String[] permittedServerNames = {"sexy ass mom frickers", "just me"};
-  static Logger Logger = new Logger();
+  LogSystem Logger = new LogSystem();
 
   public static void main(String[] args) {
+    LogSystem Logger = new LogSystem();
     Logger.makeLogFile();
-    writeLog("program started");
+    Logger.Log("program started");
     // start bot on new thread
     // this permits total bot restart if wanted
     new Thread(
@@ -37,6 +38,7 @@ public class Main {
   }
 
   public static void connect1() {
+    Logger Logger = new Logger();
     Logger.Log("bot connecting");
     try {
       JDA alethophobia =
@@ -62,9 +64,5 @@ public class Main {
       // (Sync thread usage and interrupts)
       e.printStackTrace();
     }
-  }
-
-  public static void writeLog(String logMessage) {
-    Logger.Log(logMessage);
   }
 }
