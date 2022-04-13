@@ -38,7 +38,7 @@ public class Main {
   }
 
   public static void connect1() {
-    Logger Logger = new Logger();
+    LogSystem Logger = new LogSystem();
     Logger.Log("bot connecting");
     try {
       JDA alethophobia =
