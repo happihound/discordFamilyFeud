@@ -42,9 +42,9 @@ class LogSystem {
     }
   }
 
-  public void warn(int... warningNumber) {
+  public void warn(int warningNumber) {
     String message = "";
-    switch (warningNumber[0]) {
+    switch (warningNumber) {
       case 1:
         message =
             "WARNING: Unable to change points for a user! This may have been caused by a read/write error";
