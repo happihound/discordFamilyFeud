@@ -22,16 +22,14 @@ class Game {
   long botGameMessageID;
   ArrayList<String> Roster;
   ServerInstance server;
-  LogSystem logger = new LogSystem();
+  LogSystem logger;
 
   public Game(ServerInstance thisServer) {
-
+    this.logger = new LogSystem(Main.getRunNumber());
     this.server = thisServer;
     this.Roster = server.Roster;
     questionDatabase = new questionDatabase();
     botGameMessageID = -1;
-
-    // TODO Auto-generated constructor stub
   }
 
   public void startNewGame(MessageChannel channel, int[] userAnswers1) {
@@ -53,13 +51,12 @@ class Game {
     newRound(Roster, channel, userAnswers1);
   }
 
-  @SuppressWarnings("static-access")
   public void newRound(ArrayList<String> Roster, MessageChannel channel, int[] userAnswers1) {
     Random rand = new Random();
     long seed = System.nanoTime();
     int randomNumber = rand.nextInt(questionDatabase.getLineCount("questions.txt"));
     String[] answers = questionDatabase.getAnswer(randomNumber);
-    Integer[] answerValue = discordFamilyFued.questionDatabase.questionValue(randomNumber);
+    Integer[] answerValue = questionDatabase.questionValue(randomNumber);
     Collections.shuffle(Arrays.asList(answers), new Random(seed));
     Collections.shuffle(Arrays.asList(answerValue), new Random(seed));
     Integer[] placementOfAnswer = new Integer[6];
@@ -102,8 +99,7 @@ class Game {
       try {
         Thread.sleep(200);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        logger.Log(e.toString());
       }
     }
     logger.Log("All answers collected in server: " + server.getName());
@@ -157,8 +153,7 @@ class Game {
     try {
       Thread.sleep(3000);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.Log(e.toString());
     }
 
     if (server.getRoundNumber() >= 2) {
@@ -224,7 +219,8 @@ class Game {
       fos.write(b); // writes bytes into file
       fos.close(); // close the file
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.warn(1);
+      logger.Log(e.toString());
     }
   }
 
@@ -232,6 +228,7 @@ class Game {
     logger.Log("Trying to add points to user: " + user);
     int basePoints = getUserPoints(user);
     if (!userExists(user)) {
+      logger.warn(2);
       return -2;
     }
     List<String> newLines = new ArrayList<>();
@@ -242,19 +239,21 @@ class Game {
         if (line.contains("points=")) {
           newLines.add("points=" + (basePoints + points));
           logger.Log(
-              "Successfully added points to User "
+              "Successfully added points to user "
                   + user
                   + " "
                   + basePoints
                   + " -> "
-                  + (basePoints + points));
+                  + (basePoints + points)
+                  + " in server: "
+                  + server.getName());
         } else {
           newLines.add(line);
         }
       }
     } catch (IOException e) {
       logger.warn(1);
-      e.printStackTrace();
+      logger.Log(e.toString());
       return -1;
     }
     try {
@@ -262,15 +261,15 @@ class Game {
           Paths.get(server.getFileLocation() + user + ".txt"), newLines, StandardCharsets.UTF_8);
       return 1;
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.warn(1);
+      logger.Log(e.toString());
       return -1;
     }
   }
 
   public int getUserPoints(String user) {
     if (!userExists(user)) {
-      return -2;
+      logger.warn(2);
     }
 
     try {
@@ -279,17 +278,17 @@ class Game {
               Paths.get(server.getFileLocation() + user + ".txt"), StandardCharsets.UTF_8)) {
         if (line.contains("points=")) {
           if (!(Integer.parseInt(line.replaceAll("[^0-9]*", "")) >= 0)) {
-            return -1;
+            logger.warn(3);
           }
 
           return Integer.parseInt(line.replaceAll("[^0-9]*", ""));
         }
       }
     } catch (IOException e1) {
-      // TODO Auto-generated catch block
-
+      logger.warn(1);
       e1.printStackTrace();
     }
+    logger.warn(9);
     return -1;
   }
 

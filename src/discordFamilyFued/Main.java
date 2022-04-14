@@ -1,5 +1,7 @@
 package discordFamilyFued;
 
+import java.io.File;
+
 import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.JDA;
@@ -19,10 +21,13 @@ public class Main {
   static final long[] permittedGuilds = {849877469724803102L, 917295004769210429L};
   static final long[] permittedChannels = {954205423257403452L, 958474528881778729L};
   static final String[] permittedServerNames = {"sexy ass mom frickers", "just me"};
-  LogSystem Logger = new LogSystem();
+  static int runNumber;
+  LogSystem Logger;
 
   public static void main(String[] args) {
-    LogSystem Logger = new LogSystem();
+    File f = new File(Main.logFileLocation);
+    runNumber = (f.list().length) - 1;
+    LogSystem Logger = new LogSystem(getRunNumber());
     Logger.makeLogFile();
     Logger.Log("program started");
     // start bot on new thread
@@ -38,7 +43,7 @@ public class Main {
   }
 
   public static void connect1() {
-    LogSystem Logger = new LogSystem();
+    LogSystem Logger = new LogSystem(getRunNumber());
     Logger.Log("bot connecting");
     try {
       JDA alethophobia =
@@ -64,5 +69,9 @@ public class Main {
       // (Sync thread usage and interrupts)
       e.printStackTrace();
     }
+  }
+
+  public static int getRunNumber() {
+    return runNumber;
   }
 }

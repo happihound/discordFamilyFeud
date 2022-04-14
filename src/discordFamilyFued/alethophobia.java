@@ -11,10 +11,11 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class alethophobia extends ListenerAdapter {
-
+  LogSystem logger;
   ArrayList<ServerInstance> servers;
 
   public alethophobia() {
+    this.logger = new LogSystem(Main.getRunNumber());
     servers = new ArrayList<ServerInstance>();
     for (int i = 0; Main.permittedGuilds.length > i; ) {
       allowedGuild guild = null;
@@ -23,7 +24,7 @@ public class alethophobia extends ListenerAdapter {
           new allowedGuild(
               Main.permittedGuilds[i], Main.permittedChannels[i], Main.permittedServerNames[i]);
       newServer = new ServerInstance(guild, this);
-      Main.writeLog(
+      logger.Log(
           "made guild "
               + guild.getName()
               + " guildID:"
@@ -33,8 +34,8 @@ public class alethophobia extends ListenerAdapter {
       try {
         Files.createDirectories(Paths.get(Main.userFileLocation + Main.permittedGuilds[i] + "\\"));
       } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        logger.warn(1);
+        logger.Log(e.toString());
       }
       this.servers.add(newServer);
       i++;
@@ -44,15 +45,14 @@ public class alethophobia extends ListenerAdapter {
   public void restartServer(ServerInstance server, MessageChannel channel) {
     for (int i = 0; servers.size() > i; ) {
       if (servers.get(i).getID() == server.getID()) {
-        Main.writeLog(
-            "Trying to restart Server: " + server.getID() + "\" " + server.getName() + "\"");
+        logger.Log("Trying to restart Server: " + server.getID() + "\" " + server.getName() + "\"");
         allowedGuild guild = null;
         ServerInstance newServer = null;
         guild =
             new allowedGuild(
                 server.getID(), Main.permittedChannels[i], Main.permittedServerNames[i]);
         newServer = new ServerInstance(guild, this);
-        Main.writeLog(
+        logger.Log(
             "made guild "
                 + guild.getName()
                 + " guildID:"
@@ -63,8 +63,8 @@ public class alethophobia extends ListenerAdapter {
           Files.createDirectories(
               Paths.get(Main.userFileLocation + Main.permittedGuilds[i] + "\\"));
         } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          logger.warn(1);
+          logger.Log(e.toString());
         }
         servers.set(i, newServer);
         channel
@@ -75,7 +75,7 @@ public class alethophobia extends ListenerAdapter {
                     + "\" has been restarted"
                     + "```")
             .queue();
-        Main.writeLog("Successfully restarted server");
+        logger.Log("Successfully restarted server");
         return;
       }
 
@@ -90,8 +90,7 @@ public class alethophobia extends ListenerAdapter {
             .sendMessage("```diff\r\n" + "- Sucessfully left server: " + server.getName() + "```")
             .queue();
         servers.remove(i);
-        Main.writeLog(
-            "Successfully stopped server: " + server.getName() + " ID: " + server.getID());
+        logger.Log("Successfully stopped server: " + server.getName() + " ID: " + server.getID());
         return;
       }
       i++;

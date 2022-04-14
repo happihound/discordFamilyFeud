@@ -23,7 +23,7 @@ class ServerInstance {
   LogSystem logger;
 
   public ServerInstance(allowedGuild guild, alethophobia alethophobia) {
-    this.logger = new LogSystem();
+    this.logger = new LogSystem(Main.getRunNumber());
 
     this.alethophobia = alethophobia;
     setGameState(-1);
@@ -72,7 +72,8 @@ class ServerInstance {
       commandString[i].toLowerCase();
       i++;
     }
-    logger.Log("Received new command in " + this.getName() + " from user " + userName);
+    logger.Log(
+        "Received new command " + msg + " in: " + this.getName() + " from user: " + userName);
 
     if (isAdmin(userName)) {
       switch (commandString[0]) {
@@ -145,7 +146,6 @@ class ServerInstance {
   }
 
   public void makeNextRound(MessageChannel channel) {
-    setGameState(3);
     if (getRoundNumber() != 5) {
       start(channel);
     } else {
@@ -196,7 +196,7 @@ class ServerInstance {
       Roster.clear();
       if (isAdmin && getGameState() > 0) {
         channel.sendMessage("Admin " + user + " ended the game!").queue();
-        logger.Log("Admin" + user + " ended the game in server: " + this.getName());
+        logger.Log("Admin " + user + " ended the game in server: " + this.getName());
         getGame().endGame(channel);
         return;
       } else if (getGameState() > 0) {
@@ -230,6 +230,7 @@ class ServerInstance {
     } else if (msg.equals("\u0036\ufe0f\u20e3")) {
       value = 6;
     }
+    if (value == -1) logger.warn(4);
     return value;
   }
 
@@ -251,7 +252,7 @@ class ServerInstance {
   }
 
   public void start(MessageChannel channel) {
-    logger.Log("Attempting to create new game in server: " + getName());
+    logger.Log("Attempting to create new game in server: " + this.getName());
     newGame = new Game(this);
     userChoices = new int[Roster.size()];
     for (int i = 0; userChoices.length > i; ) {
@@ -286,11 +287,15 @@ class ServerInstance {
     if (Roster.contains(user)) {
       Roster.remove(new String(user));
       channel.sendMessage(user + " left the game!").queue();
-      logger.Log("Removed user: " + user + " from the roster in server " + this.getName());
+      logger.Log("Removed user: " + user + " from the roster in server: " + this.getName());
       return;
     } else {
       channel.sendMessage(user + " you can't leave if you haven't joined!").queue();
-      logger.Log("User " + user + " tried to leave but wasn't in the roster");
+      logger.Log(
+          "User: "
+              + user
+              + " tried to leave but wasn't in the roster in server: "
+              + this.getName());
       return;
     }
   }
@@ -323,7 +328,12 @@ class ServerInstance {
   }
 
   public void setGameState(int updatedGameState) {
-    logger.Log("Game state was updated to \"" + getGameState(updatedGameState) + "\"");
+    logger.Log(
+        "Game state was updated to \""
+            + getGameState(updatedGameState)
+            + "\""
+            + " in server: "
+            + this.getName());
     gameState = updatedGameState;
   }
 
@@ -377,12 +387,10 @@ class ServerInstance {
   }
 
   public String getName() {
-
     return guild.getName();
   }
 
   public long getID() {
-
     return guild.getServerID();
   }
 
@@ -391,7 +399,6 @@ class ServerInstance {
   }
 
   public Game getGame() {
-
     return newGame;
   }
 }

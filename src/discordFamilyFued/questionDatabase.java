@@ -7,23 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class questionDatabase {
-  static File questions = new File(Main.questionFileLocation + "questions.txt");
-  static File firstPlace = new File(Main.questionFileLocation + "firstPlace.txt");
-  static File secondPlace = new File(Main.questionFileLocation + "secondPlace.txt");
-  static File thirdPlace = new File(Main.questionFileLocation + "thirdPlace.txt");
-  static File fourthPlace = new File(Main.questionFileLocation + "fourthPlace.txt");
-  static File fifthPlace = new File(Main.questionFileLocation + "fifthPlace.txt");
-  static File sixthPlace = new File(Main.questionFileLocation + "sixthPlace.txt");
+  File questions = new File(Main.questionFileLocation + "questions.txt");
+  File firstPlace = new File(Main.questionFileLocation + "firstPlace.txt");
+  File secondPlace = new File(Main.questionFileLocation + "secondPlace.txt");
+  File thirdPlace = new File(Main.questionFileLocation + "thirdPlace.txt");
+  File fourthPlace = new File(Main.questionFileLocation + "fourthPlace.txt");
+  File fifthPlace = new File(Main.questionFileLocation + "fifthPlace.txt");
+  File sixthPlace = new File(Main.questionFileLocation + "sixthPlace.txt");
 
-  static String[] questionsArray = new String[getLineCount("questions.txt")];
-  static String[] firstPlaceAnswers = new String[getLineCount("firstPlace.txt")];
-  static String[] secondPlaceAnswers = new String[getLineCount("secondPlace.txt")];
-  static String[] thirdPlaceAnswers = new String[getLineCount("thirdPlace.txt")];
-  static String[] fourthPlaceAnswers = new String[getLineCount("fourthPlace.txt")];
-  static String[] fifthPlaceAnswers = new String[getLineCount("fifthPlace.txt")];
-  static String[] sixthPlaceAnswers = new String[getLineCount("sixthPlace.txt")];
+  String[] questionsArray = new String[getLineCount("questions.txt")];
+  String[] firstPlaceAnswers = new String[getLineCount("firstPlace.txt")];
+  String[] secondPlaceAnswers = new String[getLineCount("secondPlace.txt")];
+  String[] thirdPlaceAnswers = new String[getLineCount("thirdPlace.txt")];
+  String[] fourthPlaceAnswers = new String[getLineCount("fourthPlace.txt")];
+  String[] fifthPlaceAnswers = new String[getLineCount("fifthPlace.txt")];
+  String[] sixthPlaceAnswers = new String[getLineCount("sixthPlace.txt")];
+
+  LogSystem logger;
 
   public questionDatabase() {
+    this.logger = new LogSystem(Main.getRunNumber());
     questionsArray = populateArray("questions.txt");
     firstPlaceAnswers = populateArray("firstPlace.txt");
     secondPlaceAnswers = populateArray("secondPlace.txt");
@@ -81,7 +84,7 @@ class questionDatabase {
     return answers;
   }
 
-  public static Integer[] questionValue(int QuestionNumber) {
+  public Integer[] questionValue(int QuestionNumber) {
     int pointValue;
     Integer[] pointValues = new Integer[6];
 
@@ -126,8 +129,7 @@ class questionDatabase {
         lineNumber++;
       }
     } catch (IOException e1) {
-      // TODO Auto-generated catch block
-
+      logger.warn(1);
       e1.printStackTrace();
     }
 
@@ -139,7 +141,7 @@ class questionDatabase {
   }
 
   @SuppressWarnings("unused")
-  public static int getLineCount(String fileName) {
+  public int getLineCount(String fileName) {
 
     int lineNumber = 0;
 
@@ -150,7 +152,7 @@ class questionDatabase {
         lineNumber++;
       }
     } catch (IOException e1) {
-      // TODO Auto-generated catch block
+      logger.warn(1);
 
       e1.printStackTrace();
     }
