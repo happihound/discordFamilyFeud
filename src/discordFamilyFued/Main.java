@@ -47,7 +47,7 @@ public class Main {
     Logger.Log("bot connecting");
     try {
       JDA alethophobia =
-          JDABuilder.createDefault("OTU0MjAyNzgwNjA2ODE2Mzc2.YjPslw.gvkvX-qNL_kzSWylMnDXDhKDH9s")
+          JDABuilder.createDefault(//API KEY HERE//)
               .addEventListeners(
                   new alethophobia()) // An instance of a class that will handle events.
               .build();
