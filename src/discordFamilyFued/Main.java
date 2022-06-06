@@ -53,7 +53,7 @@ public class Main extends JPanel implements ActionListener {
 	public static void connect1() {
 		writeLog("bot connecting");
 		try {
-			JDA alethophobia = JDABuilder.createDefault("OTU0MjAyNzgwNjA2ODE2Mzc2.YjPslw.gvkvX-qNL_kzSWylMnDXDhKDH9s")
+			JDA alethophobia = JDABuilder.createDefault(//ENTER YOUR API KEY HERE//)
 					.addEventListeners(new alethophobia()) // An instance of a class that will handle events.
 					.build();
 			alethophobia.awaitReady(); // Blocking guarantees that JDA will be completely loaded.
