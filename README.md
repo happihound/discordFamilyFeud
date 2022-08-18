@@ -4,7 +4,8 @@ Similar to the Twitch bot, the Discord bot had to perform 3 tasks. The first was
 The users had to enjoy the game and feel like they were earning something.
 The second was scale. I wanted the bot to play multiple games, on multiple servers asynchronously, i.e. if one game crashed on one server,
 the other games would remain unaffected. The third was versatility. 
-I wanted to make a platform on which it would be relatively easy to adjust or fabricate a new game entirely.  
+I wanted to make a platform on which it would be relatively easy to adjust or fabricate a new game entirely. 
+
 To tackle the first part, I made the game reward points to each player based on their performance.
 These points had to be persistent between games played, bot crashes, and restarts.
 These points should make the users feel like they accomplished something and encourage more games to be played.   
